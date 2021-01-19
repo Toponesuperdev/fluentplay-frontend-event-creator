@@ -9,7 +9,6 @@ import {
 } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
-import { EventCard } from "components/EventCard/EventCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
 import DateRangePicker from 'react-bootstrap-daterangepicker';
@@ -137,7 +136,6 @@ class EventInformation extends Component {
                           <FormControl
                             componentClass="select"
                             bsClass="form-control"
-                            placeholder="Input the envent name."
                             defaultValue={event_info.category}
                             onChange={this.handleCategoryChange}
                           >
@@ -170,7 +168,6 @@ class EventInformation extends Component {
                           <FormControl
                           componentClass="select"
                           bsClass="form-control"
-                          placeholder="Select timezone."
                           defaultValue={event_info.timezone}
                           onChange={this.handletimezoneChange}
                         >
@@ -272,7 +269,6 @@ class EventInformation extends Component {
                           Edit
                         </Button>
                     }
-                    
                     <div className="clearfix" />
                   </div>
                 }

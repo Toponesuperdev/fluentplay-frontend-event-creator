@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom"
 
-export class SponserCard extends Component {
+export class SponsorCard extends Component {
   render() {
     const {data} = this.props;
-    const params = ""
+    const params = `/sponsors/${data.id}?name=${encodeURIComponent(data.name)}&company_website=${encodeURIComponent(data.company_website)}&marketing_image=${encodeURIComponent(data.marketing_image)}&promotion_message=${encodeURIComponent(data.promotion_message)}&promotion_url=${encodeURIComponent(data.promotion_url)}`
 
     return (
       <div className="card card-event">
@@ -12,13 +13,13 @@ export class SponserCard extends Component {
         </div>
         <div className="content">
           <div style={{display: "flex"}}>
-            <a href="#pablo">
+            <Link to={params}>
               <h4 className="title">
                 {data.name}
                 <br />
                 <small>{data.company_website}</small>
               </h4>
-            </a>
+            </Link>
           </div>
           <p className="description" style={{marginTop: "10px"}}>{data.promotion_message}</p>
         </div>
@@ -27,4 +28,4 @@ export class SponserCard extends Component {
   }
 }
 
-export default SponserCard;
+export default SponsorCard;

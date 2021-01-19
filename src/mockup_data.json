@@ -44,8 +44,8 @@
 			"title": "Session Title 1",
 			"company_name": "Microsoft LLC",
 			"your_language": "English",
-			"translation_language": "Serbian",
-			"start_time": "2020-03-08",
+			"translation_language": "French",
+			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
 					"file_name": "Reference.doc",
@@ -68,7 +68,7 @@
 			"company_name": "Amazon LLC",
 			"your_language": "Germany",
 			"translation_language": "Japanese",
-			"start_time": "2020-03-08",
+			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
 					"file_name": "Reference.doc",
@@ -89,9 +89,9 @@
 			"name": "Session 3",
 			"title": "Session Title 3",
 			"company_name": "Google LLC",
-			"your_language": "English",
+			"your_language": "Portuguese",
 			"translation_language": "Italian",
-			"start_time": "2020-03-08",
+			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
 					"file_name": "Reference.doc",
@@ -120,30 +120,30 @@
 			]
 		}
 	],
-	"sponsers": [
+	"sponsors": [
 		{
 			"id": "5ed182bdb862ce8e",
-			"name": "Sponser 1",
-			"company_website": "www.brainsshare.com",
+			"name": "Sponsor 1",
+			"company_website": "https://brainsshare.com",
 			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
 			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
-			"promotion_url": "www.google.com"
+			"promotion_url": "https://google.com"
 		},
 		{
 			"id": "5ed182bdb862ce8e",
-			"name": "Sponser 2",
-			"company_website": "www.bixtalk.com",
+			"name": "Sponsor 2",
+			"company_website": "https://bixtalk.com",
 			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
 			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
-			"promotion_url": "www.upwork.com"
+			"promotion_url": "https://upwork.com"
 		},
 		{
 			"id": "5ed182bdb862ce8e",
-			"name": "Sponser 3",
-			"company_website": "www.bitbucket.com",
+			"name": "Sponsor 3",
+			"company_website": "https://bitbucket.org",
 			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
 			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
-			"promotion_url": "www.hubstaff.com"
+			"promotion_url": "https://hubstaff.com"
 		}
 	]
 }

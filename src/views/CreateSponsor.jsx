@@ -11,7 +11,7 @@ import {
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 
-class CreateSponser extends Component {
+class CreateSponsor extends Component {
 
   constructor(props) {
     super(props);
@@ -29,15 +29,15 @@ class CreateSponser extends Component {
           <Row>
             <Col md={12}>
               <Card
-                title="Create sponser"
+                title="Create sponsor"
                 content={
                   <div>
-                    <FormGroup controlId="sponserName">
-                      <ControlLabel>Sponser name</ControlLabel>
+                    <FormGroup controlId="sponsorName">
+                      <ControlLabel>Sponsor name</ControlLabel>
                       <FormControl
                         componentClass="input"
                         bsClass="form-control"
-                        placeholder="Input sponser's name."
+                        placeholder="Input sponsor's name."
                         defaultValue=""
                       />
                     </FormGroup>
@@ -92,4 +92,4 @@ class CreateSponser extends Component {
   }
 }
 
-export default CreateSponser;
+export default CreateSponsor;

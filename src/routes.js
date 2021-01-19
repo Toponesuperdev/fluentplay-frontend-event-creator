@@ -32,8 +32,8 @@ import CreateEvent from "views/CreateEvent.jsx"
 import EditEvent from "views/EditEvent.jsx"
 import CreateSession from "views/CreateSession.jsx"
 import EditSession from "views/EditSession.jsx"
-import CreateSponser from "views/CreateSponser.jsx"
-import EditSponser from "views/EditSponser.jsx"
+import CreateSponsor from "views/CreateSponsor.jsx"
+import EditSponsor from "views/EditSponsor.jsx"
 
 const dashboardRoutes = [
   {
@@ -87,8 +87,8 @@ const dashboardRoutes = [
     sidebar: false
   },
   {
-    path: "/sponsers",
-    name: "Sponsers",
+    path: "/sponsors",
+    name: "Sponsors",
     icon: "pe-7s-user",
     component: Sponsors,
     layout: "/admin",
@@ -96,18 +96,18 @@ const dashboardRoutes = [
     exact: true
   },
   {
-    path: "/sponsers/new",
-    name: "Sponsers",
+    path: "/sponsors/new",
+    name: "Sponsors",
     icon: "pe-7s-user",
-    component: CreateSponser,
+    component: CreateSponsor,
     layout: "/admin",
     sidebar: false
   },
   {
-    path: "/sponsers/:id",
-    name: "Sponsers",
+    path: "/sponsors/:id",
+    name: "Sponsors",
     icon: "pe-7s-user",
-    component: EditSponser,
+    component: EditSponsor,
     layout: "/admin",
     sidebar: false
   },
