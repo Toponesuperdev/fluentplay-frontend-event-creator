@@ -9,7 +9,7 @@ import { EventCard } from "components/EventCard/EventCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import mockup_data from "../mockup_data.json"
 
-const mockup_events  = mockup_data.events;
+const mockup_events = mockup_data.events;
 
 class EventInformation extends Component {
   constructor(props) {

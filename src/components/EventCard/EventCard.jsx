@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 export class EventCard extends Component {
   render() {
     const {data} = this.props;
-    const params = `/events/${data.id}?name=${data.name}&category=${data.category}&image_path=${data.image_path}&timezome=${data.timezome}&start_time=${data.start_time}&end_time=${data.end_time}&event_price=${data.event_price}&translation_price=${data.translation_price}&`
+    const params = `/events/${data.id}?name=${encodeURIComponent(data.name)}&description=${encodeURIComponent(data.description)}&category=${encodeURIComponent(data.category)}&image_path=${encodeURIComponent(data.image_path)}&timezone=${encodeURIComponent(data.timezone)}&start_time=${encodeURIComponent(data.start_time)}&end_time=${encodeURIComponent(data.end_time)}&event_price=${encodeURIComponent(data.event_price)}&translation_price=${encodeURIComponent(data.translation_price)}`
 
     return (
       <div className="card card-event">
@@ -17,7 +18,7 @@ export class EventCard extends Component {
               <h4 className="title">
                 {data.name}
                 <br />
-                <small>Start from: {data.start_time}</small>
+                <small>Start from: {moment(data.start_time).format("MM/DD/YYYY")}</small>
               </h4>
             </Link>
             {data.translation_price && <h4 style={{marginLeft: "auto"}}>{data.translation_price}$</h4>}
