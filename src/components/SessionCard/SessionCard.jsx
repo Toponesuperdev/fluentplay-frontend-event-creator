@@ -18,11 +18,11 @@ export class SessionCard extends Component {
             </a>
           </div>
           <h5>Start from: {this.props.from}</h5>
-          <h5 className="col-md-6" style={{height: "28px", paddingLeft: "0px", paddingRight: "0px"}}>Language: {this.props.language && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{this.props.language}</label>}</h5>
-          <h5 className="col-md-6" style={{height: "28px", paddingLeft: "0px", paddingRight: "0px"}}>Translation Language: {this.props.tranlationLanguage && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{this.props.tranlationLanguage}</label>}</h5>
+          <div style={{height: '60px'}}>
+            <h5 className="col-md-6" style={{height: "28px", paddingLeft: "0px", paddingRight: "0px"}}>Language: {this.props.language && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{this.props.language}</label>}</h5>
+            <h5 className="col-md-6" style={{height: "28px", paddingLeft: "0px", paddingRight: "0px"}}>Translation Language: {this.props.tranlationLanguage && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{this.props.tranlationLanguage}</label>}</h5>
+          </div>
         </div>
-        <hr style={{marginTop: "0px", marginBottom: "0px"}}/>
-        <div className="text-center">{this.props.socials}</div>
       </div>
     );
   }

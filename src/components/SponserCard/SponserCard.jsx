@@ -19,8 +19,6 @@ export class SponserCard extends Component {
           </div>
           <p className="description text-center">{this.props.promotionMessage}</p>
         </div>
-        <hr style={{marginTop: "0px", marginBottom: "0px"}}/>
-        <div className="text-center">{this.props.socials}</div>
       </div>
     );
   }

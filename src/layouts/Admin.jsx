@@ -87,6 +87,7 @@ class Admin extends Component {
               />
             )}
             key={key}
+            exact={prop.exact}
           />
         );
       } else {

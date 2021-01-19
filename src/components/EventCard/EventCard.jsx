@@ -22,8 +22,6 @@ export class EventCard extends Component {
           <h5 style={{height: "28px"}}>Category: {this.props.price && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{this.props.category}</label>}</h5>
           <p className="description text-center">{this.props.description}</p>
         </div>
-        <hr style={{marginTop: "0px", marginBottom: "0px"}}/>
-        <div className="text-center">{this.props.socials}</div>
       </div>
     );
   }

@@ -28,27 +28,88 @@ import Sponsors from "views/Sponsors.jsx";
 import { Redirect } from "react-router";
 // import Upgrade from "views/Upgrade.jsx";
 
+import CreateEvent from "views/CreateEvent.jsx"
+import EditEvent from "views/EditEvent.jsx"
+import CreateSession from "views/CreateSession.jsx"
+import EditSession from "views/EditSession.jsx"
+import CreateSponser from "views/CreateSponser.jsx"
+import EditSponser from "views/EditSponser.jsx"
+
 const dashboardRoutes = [
   {
     path: "/events",
     name: "Event Information",
     icon: "pe-7s-user",
     component: EventInformation,
-    layout: "/admin"
+    layout: "/admin",
+    sidebar: true,
+    exact: true
+  },
+  {
+    path: "/events/new",
+    // name: "Event Information",
+    // icon: "pe-7s-user",
+    component: CreateEvent,
+    layout: "/admin",
+    sidebar: false
+  },
+  {
+    path: "/events/:id",
+    name: "Event Information",
+    icon: "pe-7s-user",
+    component: EditEvent,
+    layout: "/admin",
+    sidebar: false
   },
   {
     path: "/sessions",
     name: "Session Information",
     icon: "pe-7s-user",
     component: SessionInformation,
-    layout: "/admin"
+    layout: "/admin",
+    sidebar: true,
+    exact: true
+  },
+  {
+    path: "/sessions/new",
+    name: "Session Information",
+    icon: "pe-7s-user",
+    component: CreateSession,
+    layout: "/admin",
+    sidebar: false
+  },
+  {
+    path: "/sessions/:id",
+    name: "Session Information",
+    icon: "pe-7s-user",
+    component: EditSession,
+    layout: "/admin",
+    sidebar: false
   },
   {
     path: "/sponsers",
     name: "Sponsers",
     icon: "pe-7s-user",
     component: Sponsors,
-    layout: "/admin"
+    layout: "/admin",
+    sidebar: true,
+    exact: true
+  },
+  {
+    path: "/sponsers/new",
+    name: "Sponsers",
+    icon: "pe-7s-user",
+    component: CreateSponser,
+    layout: "/admin",
+    sidebar: false
+  },
+  {
+    path: "/sponsers/:id",
+    name: "Sponsers",
+    icon: "pe-7s-user",
+    component: EditSponser,
+    layout: "/admin",
+    sidebar: false
   },
   // {
   //   path: "/dashboard",
