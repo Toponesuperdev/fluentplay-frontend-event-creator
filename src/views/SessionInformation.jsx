@@ -6,27 +6,17 @@ import {
   Col,
 } from "react-bootstrap";
 
-import { Card } from "components/Card/Card.jsx";
 import { SessionCard } from "components/SessionCard/SessionCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import mockup_data from "../mockup_data.json"
 
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+const mockup_sessions  = mockup_data.sessions;
 
 class SessionInformation extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      selectedDay: undefined,
-    }
-
-    this.handleDayChange = this.handleDayChange.bind(this);
-  }
-
-  handleDayChange(day) {
-    this.setState({ selectedDay: day });
   }
 
   render() {
@@ -40,39 +30,15 @@ class SessionInformation extends Component {
               </Button>
             </Link>
           </Row>
-          <Col md={4}>
-            <SessionCard
-              bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-              title="Session Title 1"
-              companyName="Microsoft LLC"
-              language="English"
-              tranlationLanguage="French"
-              from={"2021-02-23"}
-              category={"Banking & Finance"}
-            />
-          </Col>
-          <Col md={4}>
-            <SessionCard
-              bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-              title="Session Title 1"
-              companyName="Amazon LLC"
-              language="Germany"
-              tranlationLanguage="Japanese"
-              from={"2021-02-23"}
-              category={"Banking & Finance"}
-            />
-          </Col>
-          <Col md={4}>
-            <SessionCard
-              bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-              title="Session Title 3"
-              companyName="Google LLC"
-              language="English"
-              tranlationLanguage="Italian"
-              from={"2021-02-23"}
-              category={"Banking & Finance"}
-            />
-          </Col>
+          {mockup_sessions.map((session, idx) => {
+            return (
+              <Col md={4} key={idx}>
+                <SessionCard
+                  data={session}
+                />
+              </Col>
+            ); 
+          })}
         </Grid>
       </div>
     );

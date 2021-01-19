@@ -4,24 +4,19 @@ import {
   Grid,
   Row,
   Col,
-  FormGroup,
-  ControlLabel,
-  FormControl,
 } from "react-bootstrap";
 
-import { Card } from "components/Card/Card.jsx";
 import { SponserCard } from "components/SponserCard/SponserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import mockup_data from "../mockup_data.json"
+
+const mockup_sponsers  = mockup_data.sponsers;
 
 class Sponsers extends Component {
 
   constructor(props) {
     super(props);
 
-  }
-
-  handleDayChange(day) {
-    this.setState({ selectedDay: day });
   }
 
   render() {
@@ -35,54 +30,27 @@ class Sponsers extends Component {
               </Button>
             </Link>
           </Row>
-          <Col md={4}>
-            <SponserCard
-              bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-              name="Sponser 1"
-              companyUrl="www.google.com"
-              promotionMessage={
-                <span>
-                  Lamborghini Mercy
-                  <br />
-                  Your chick she so thirsty
-                  <br />
-                  I'm in that two seat Lambo
-                </span>
-              }
-            />
-          </Col>
-          <Col md={4}>
-          <SponserCard
-              bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-              name="Sponser 1"
-              companyUrl="www.google.com"
-              promotionMessage={
-                <span>
-                  Lamborghini Mercy
-                  <br />
-                  Your chick she so thirsty
-                  <br />
-                  I'm in that two seat Lambo
-                </span>
-              }
-            />
-          </Col>
-          <Col md={4}>
-          <SponserCard
-              bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-              name="Sponser 1"
-              companyUrl="www.google.com"
-              promotionMessage={
-                <span>
-                  Lamborghini Mercy
-                  <br />
-                  Your chick she so thirsty
-                  <br />
-                  I'm in that two seat Lambo
-                </span>
-              }
-            />
-          </Col>
+          {mockup_sponsers.map((sponser, idx) => {
+            return (
+              <Col md={4} key={idx}>
+                <SponserCard
+                  bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+                  name="Sponser 1"
+                  companyUrl="www.google.com"
+                  promotionMessage={
+                    <span>
+                      Lamborghini Mercy
+                      <br />
+                      Your chick she so thirsty
+                      <br />
+                      I'm in that two seat Lambo
+                    </span>
+                  }
+                  data={sponser}
+                />
+              </Col>
+            );
+          })}
         </Grid>
       </div>
     );

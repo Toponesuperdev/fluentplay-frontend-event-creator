@@ -1,0 +1,114 @@
+{
+	"events": [
+		{
+			"id": "8889f617ea4f4f42",
+			"name": "Event 1",
+			"description": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
+			"category": "Banking & Financing",
+			"image_path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+			"timezome": "(GMT +1:00) Brussels, Copenhagen, Madrid, Paris",
+			"start_time": "2021-02-23",
+			"end_time": "2021-03-16",
+			"event_price": "50",
+			"translation_price": "10"
+		},
+		{
+			"id": "8889f617ea4f4f42",
+			"name": "Event 2",
+			"description": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
+			"category": "Business",
+			"image_path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+			"timezome": "(GMT +1:00) Brussels, Copenhagen, Madrid, Paris",
+			"start_time": "2021-02-23",
+			"end_time": "2021-03-16",
+			"event_price": "80",
+			"translation_price": "15"
+		},
+		{
+			"id": "8889f617ea4f4f42",
+			"name": "Event 3",
+			"description": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
+			"category": "Climate & Enviornment",
+			"image_path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+			"timezome": "(GMT +1:00) Brussels, Copenhagen, Madrid, Paris",
+			"start_time": "2021-02-23",
+			"end_time": "2021-03-16",
+			"event_price": "100",
+			"translation_price": "20"
+		}
+	],
+	"sessions": [
+		{
+			"id": "7d926d467da9a27e",
+			"name": "Session 1",
+			"title": "Session Title 1",
+			"company_name": "Microsoft LLC",
+			"your_language": "English",
+			"translation_language": "Serbian",
+			"start_time": "2020-03-08",
+			"files": [
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"}
+			]
+		},
+		{
+			"id": "7d926d467da9a27e",
+			"name": "Session 2",
+			"title": "Session Title 2",
+			"company_name": "Amazon LLC",
+			"your_language": "Germany",
+			"translation_language": "Japanese",
+			"start_time": "2020-03-08",
+			"files": [
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"}
+			]
+		},
+		{
+			"id": "7d926d467da9a27e",
+			"name": "Session 3",
+			"title": "Session Title 3",
+			"company_name": "Google LLC",
+			"your_language": "English",
+			"translation_language": "Italian",
+			"start_time": "2020-03-08",
+			"files": [
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"},
+				{"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"}
+			]
+		}
+	],
+	"sponsers": [
+		{
+			"id": "5ed182bdb862ce8e",
+			"name": "Sponser 1",
+			"company_website": "www.brainsshare.com",
+			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
+			"promotion_url": "www.google.com"
+		},
+		{
+			"id": "5ed182bdb862ce8e",
+			"name": "Sponser 2",
+			"company_website": "www.bixtalk.com",
+			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
+			"promotion_url": "www.upwork.com"
+		},
+		{
+			"id": "5ed182bdb862ce8e",
+			"name": "Sponser 3",
+			"company_website": "www.bitbucket.com",
+			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
+			"promotion_url": "www.hubstaff.com"
+		}
+	]
+}

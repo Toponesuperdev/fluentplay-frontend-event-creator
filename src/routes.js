@@ -47,8 +47,8 @@ const dashboardRoutes = [
   },
   {
     path: "/events/new",
-    // name: "Event Information",
-    // icon: "pe-7s-user",
+    name: "Event Information",
+    icon: "pe-7s-user",
     component: CreateEvent,
     layout: "/admin",
     sidebar: false
