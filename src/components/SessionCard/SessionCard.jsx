@@ -5,8 +5,15 @@ import moment from "moment"
 export class SessionCard extends Component {
   render() {
     const {data} = this.props;
-    const params = `/sessions/${data.id}?name=${encodeURIComponent(data.name)}&title=${encodeURIComponent(data.title)}&company_name=${encodeURIComponent(data.company_name)}&your_language=${encodeURIComponent(data.your_language)}&translation_language=${encodeURIComponent(data.translation_language)}&start_time=${encodeURIComponent(data.start_time)}`;
-    console.log(JSON.stringify(data.files[0]));
+    let files = "[" + JSON.stringify(data.files[0]);
+    data.files.map((file, idx) => {
+      if (idx) {
+        files += "," + JSON.stringify(file);
+      }
+    });
+    files += "]"
+    const event = JSON.stringify(data.event);
+    const params = `/sessions/${data.id}?name=${encodeURIComponent(data.name)}&title=${encodeURIComponent(data.title)}&company_name=${encodeURIComponent(data.company_name)}&your_language=${encodeURIComponent(data.your_language)}&translation_language=${encodeURIComponent(data.translation_language)}&start_time=${encodeURIComponent(data.start_time)}&files=${encodeURIComponent(files)}&event=${event}`;
 
     return (
       <div className="card card-event">
@@ -22,6 +29,7 @@ export class SessionCard extends Component {
                 <small>{data.company_name}</small>
               </h4>
             </Link>
+            <h4 style={{marginLeft: "auto"}}>{data.event.name}</h4>
           </div>
           <h5>Start from: {moment(data.start_time).format("MM/DD/YYYY")}</h5>
           <div style={{height: '60px'}}>

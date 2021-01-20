@@ -10,6 +10,15 @@ import {
 
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import { Multiselect } from 'multiselect-react-dropdown';
+import mockup_data from "../mockup_data.json"
+
+const session_list = mockup_data.sessions;
+let select_list = [];
+
+session_list.map((session) => {
+  select_list.push({name: session.title})
+})
 
 class CreateSponsor extends Component {
 
@@ -74,6 +83,16 @@ class CreateSponsor extends Component {
                         bsClass="form-control"
                         placeholder="Input the url for promotion."
                         defaultValue=""
+                      />
+                    </FormGroup>
+                    <FormGroup controlId="promotionUrl">
+                      <ControlLabel>Sessions</ControlLabel>
+                      <Multiselect
+                        options={session_list}
+                        // selectedValues={this.state.selectedValue}
+                        // onSelect={this.onSelect}
+                        // onRemove={this.onRemove}
+                        displayValue="name"
                       />
                     </FormGroup>
                     

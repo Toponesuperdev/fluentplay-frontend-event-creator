@@ -23,7 +23,7 @@ export class EventCard extends Component {
             </Link>
             {data.translation_price && <h4 style={{marginLeft: "auto"}}>{data.translation_price}$</h4>}
           </div>
-          <h5 style={{height: "28px"}}>Category: {data.category && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{data.category}</label>}</h5>
+          <h5 style={{height: "28px"}}>Category: {data.category && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px", margin: "0px"}}>{data.category}</label>}</h5>
           <p className="description">{data.description}</p>
         </div>
       </div>

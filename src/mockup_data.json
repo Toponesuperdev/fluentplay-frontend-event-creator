@@ -48,18 +48,22 @@
 			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Architecture.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Industry.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Agriculture.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				}
-			]
+			],
+			"event": {
+				"id": "7d926d467da9a27e",
+				"name": "Event 3"
+			}
 		},
 		{
 			"id": "7d926d467da9a27e",
@@ -71,18 +75,22 @@
 			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Javascript.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Marketing.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Electricity.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				}
-			]
+			],
+			"event": {
+				"id": "7d926d467da9a27e",
+				"name": "Event 2"
+			}
 		},
 		{
 			"id": "7d926d467da9a27e",
@@ -98,26 +106,30 @@
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Lecture.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Cooking.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Fit.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Gaming.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				},
 				{
-					"file_name": "Reference.doc",
+					"file_name": "Programming Basic.doc",
 					"path": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
 				}
-			]
+			],
+			"event": {
+				"id": "7d926d467da9a27e",
+				"name": "Event 1"
+			}
 		}
 	],
 	"sponsors": [
@@ -127,7 +139,17 @@
 			"company_website": "https://brainsshare.com",
 			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
 			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
-			"promotion_url": "https://google.com"
+			"promotion_url": "https://google.com",
+			"sessions": [
+				{
+					"id": "5ed182bdb862ce8e",
+					"title": "Session Title 1"
+				},
+				{
+					"id": "5ed182bdb862ce8e",
+					"title": "Session Title 2"
+				}
+			]
 		},
 		{
 			"id": "5ed182bdb862ce8e",
@@ -135,7 +157,17 @@
 			"company_website": "https://bixtalk.com",
 			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
 			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
-			"promotion_url": "https://upwork.com"
+			"promotion_url": "https://upwork.com",
+			"sessions": [
+				{
+					"id": "5ed182bdb862ce8e",
+					"title": "Session Title 1"
+				},
+				{
+					"id": "5ed182bdb862ce8e",
+					"title": "Session Title 3"
+				}
+			]
 		},
 		{
 			"id": "5ed182bdb862ce8e",
@@ -143,7 +175,17 @@
 			"company_website": "https://bitbucket.org",
 			"marketing_image": "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
 			"promotion_message": "fix and flip We'll Help Build The Financial Plan And Investment Strategy You Need Based On Your Goals. Personalized Strategies and Ongoing Guidance to Help you Reach Your Financial. We can recommend hard money lenders for fix and flip",
-			"promotion_url": "https://hubstaff.com"
+			"promotion_url": "https://hubstaff.com",
+			"sessions": [
+				{
+					"id": "5ed182bdb862ce8e",
+					"title": "Session Title 3"
+				},
+				{
+					"id": "5ed182bdb862ce8e",
+					"title": "Session Title 2"
+				}
+			]
 		}
 	]
 }

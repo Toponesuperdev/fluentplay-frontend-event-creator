@@ -10,13 +10,25 @@ import {
 
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
+import { Multiselect } from 'multiselect-react-dropdown';
+import mockup_data from "../mockup_data.json"
+
+const session_list = mockup_data.sessions;
+let select_list = [];
+
+session_list.map((session) => {
+  select_list.push({name: session.title})
+})
 
 let sponsor_param = {
   name: "",
   company_website: "",
   marketing_image: "",
   promotion_message: "",
-  promotion_url: ""
+  promotion_url: "",
+  sessions: [
+
+  ]
 }
 
 class Sponsors extends Component {
@@ -63,6 +75,7 @@ class Sponsors extends Component {
       marketing_image: urlParams.get("marketing_image"),
       promotion_message: urlParams.get("promotion_message"),
       promotion_url: urlParams.get("promotion_url"),
+      sessions: JSON.parse(urlParams.get("sessions"))
     }
     sponsor_param = sponsor_info;
 
@@ -141,6 +154,29 @@ class Sponsors extends Component {
                             onChange={this.handlePromotionUrlChange}
                           />
                         : <h5 style={{padding: "8px"}}><a href={sponsor_info.promotion_url} >{sponsor_info.promotion_url}</a></h5>
+                      }
+                    </FormGroup>
+                    <FormGroup controlId="promotionUrl">
+                      <ControlLabel>Sessions</ControlLabel>
+                      {editable 
+                        ? 
+                          <Multiselect
+                            options={session_list}
+                            // selectedValues={this.state.selectedValue}
+                            // onSelect={this.onSelect}
+                            // onRemove={this.onRemove}
+                            displayValue="name"
+                          />
+                        : 
+                          <div style={{display: "flex"}}>
+                            {sponsor_info.sessions.map((session, idx) => {
+                              return (
+                                <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
+                                  <label style={{color: "white", margin: "0px"}}>{session.title}</label>
+                                </div>
+                              )
+                            })}
+                          </div>
                       }
                     </FormGroup>
                     {editable 

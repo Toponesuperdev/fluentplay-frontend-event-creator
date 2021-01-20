@@ -14,6 +14,9 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 
+import mockup_data from "../mockup_data.json"
+const event_list = mockup_data.events;
+
 let session_param = {
   name: "",
   title: "",
@@ -23,7 +26,8 @@ let session_param = {
   start_time: "",
   files: [
 
-  ]
+  ],
+  event: ""
 }
 
 class SessionInformation extends Component {
@@ -82,8 +86,11 @@ class SessionInformation extends Component {
       company_name: urlParams.get("company_name"),
       your_language: urlParams.get("your_language"),
       translation_language: urlParams.get("translation_language"),
-      start_time: urlParams.get("start_time")
+      start_time: urlParams.get("start_time"),
+      files: JSON.parse(urlParams.get("files")),
+      event: JSON.parse(urlParams.get("event"))
     }
+    
     session_param = session_info;
 
     return (
@@ -123,7 +130,26 @@ class SessionInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{session_info.company_name}</h5>
                       }
                     </FormGroup>
-                    <FormGroup controlId="yourLanguage" className="col-md-6" style={{paddingLeft: "0px"}}>
+                    <FormGroup controlId="event" className="col-md-4" style={{paddingLeft: "0px"}}>
+                      <ControlLabel>Event</ControlLabel>
+                      {editable
+                        ?
+                          <FormControl
+                            componentClass="select"
+                            bsClass="form-control"
+                            defaultValue={session_info.event.name}
+                            onChange={this.handleYourLanguageChange}
+                          >
+                            {event_list.map((eve, idx) => {
+                              return (
+                                <option>{eve.name}</option>
+                              )
+                            })}
+                          </FormControl>
+                        : <h5 style={{padding: "8px"}}>{session_info.event.name}</h5>
+                      }
+                    </FormGroup>
+                    <FormGroup controlId="yourLanguage" className="col-md-4" style={{paddingLeft: "0px"}}>
                       <ControlLabel>Your Language</ControlLabel>
                       {editable
                         ?
@@ -144,7 +170,7 @@ class SessionInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{session_info.your_language}</h5>
                       }
                     </FormGroup>
-                    <FormGroup controlId="translationLanguage" className="col-md-6" style={{paddingRight: "0px"}}>
+                    <FormGroup controlId="translationLanguage" className="col-md-4" style={{paddingRight: "0px"}}>
                       <ControlLabel>Translation Language</ControlLabel>
                       {editable
                         ?
@@ -196,11 +222,32 @@ class SessionInformation extends Component {
                       <ControlLabel>Files</ControlLabel>
                       {editable
                         ?
-                          <div className="custom-file">
-                            <input id="inputGroupFile01" type="file" multiple className="custom-file-input from-control" />
-                            <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
+                          <>
+                            <div className="custom-file">
+                              <input id="inputGroupFile01" type="file" multiple className="custom-file-input from-control" />
+                              <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
+                            </div>
+                            <div style={{display: "flex", marginTop: "10px"}}>
+                              {session_info.files.map((file, idx) => {
+                                return (
+                                  <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
+                                    <label style={{color: "white",fontSize: "14px", textTransform: "none", margin: "0px"}}>{file.file_name}</label>
+                                    <label style={{color: "white", fontSize: "17px", fontWeight: "bold", margin: "0px", padding: "0px 3px"}}>×</label>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </>
+                        : 
+                          <div style={{display: "flex"}}>
+                            {session_info.files.map((file, idx) => {
+                              return (
+                                <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
+                                  <a href={"https://brainshares.s3-us-west-2.amazonaws.com/full.jpg"} style={{color: "white"}} download={file.file_name}>{file.file_name}</a>
+                                </div>
+                              )
+                            })}
                           </div>
-                        : null 
                       }
                     </FormGroup>
                     

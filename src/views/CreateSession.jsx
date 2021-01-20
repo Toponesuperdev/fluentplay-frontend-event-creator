@@ -14,6 +14,9 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 
+import mockup_data from "../mockup_data.json"
+const event_list = mockup_data.events;
+
 class CreateSession extends Component {
 
   constructor(props) {
@@ -58,7 +61,22 @@ class CreateSession extends Component {
                         defaultValue=""
                       />
                     </FormGroup>
-                    <FormGroup controlId="yourLanguage" className="col-md-6" style={{paddingLeft: "0px"}}>
+                    <FormGroup controlId="event" className="col-md-4" style={{paddingLeft: "0px"}}>
+                      <ControlLabel>Event</ControlLabel>
+                        <FormControl
+                          componentClass="select"
+                          bsClass="form-control"
+                          defaultValue=""
+                          onChange={this.handleYourLanguageChange}
+                        >
+                          {event_list.map((eve, idx) => {
+                            return (
+                              <option>{eve.name}</option>
+                            )
+                          })}
+                        </FormControl>
+                    </FormGroup>
+                    <FormGroup controlId="yourLanguage" className="col-md-4" style={{paddingLeft: "0px"}}>
                       <ControlLabel>Your Language</ControlLabel>
                       <FormControl
                         componentClass="select"
@@ -74,7 +92,7 @@ class CreateSession extends Component {
                           <option>{"Portuguese"}</option>
                       </FormControl>
                     </FormGroup>
-                    <FormGroup controlId="translationLanguage" className="col-md-6" style={{paddingRight: "0px"}}>
+                    <FormGroup controlId="translationLanguage" className="col-md-4" style={{paddingRight: "0px"}}>
                       <ControlLabel>Translation Language</ControlLabel>
                       <FormControl
                         componentClass="select"

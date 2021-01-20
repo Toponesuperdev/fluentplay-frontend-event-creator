@@ -4,7 +4,14 @@ import { Link } from "react-router-dom"
 export class SponsorCard extends Component {
   render() {
     const {data} = this.props;
-    const params = `/sponsors/${data.id}?name=${encodeURIComponent(data.name)}&company_website=${encodeURIComponent(data.company_website)}&marketing_image=${encodeURIComponent(data.marketing_image)}&promotion_message=${encodeURIComponent(data.promotion_message)}&promotion_url=${encodeURIComponent(data.promotion_url)}`
+    let sessions = "[" + JSON.stringify(data.sessions[0]);
+    data.sessions.map((session, idx) => {
+      if (idx) {
+        sessions += "," + JSON.stringify(session);
+      }
+    });
+    sessions += "]"
+    const params = `/sponsors/${data.id}?name=${encodeURIComponent(data.name)}&company_website=${encodeURIComponent(data.company_website)}&marketing_image=${encodeURIComponent(data.marketing_image)}&promotion_message=${encodeURIComponent(data.promotion_message)}&promotion_url=${encodeURIComponent(data.promotion_url)}&sessions=${sessions}`
 
     return (
       <div className="card card-event">
