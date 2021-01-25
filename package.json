@@ -9,6 +9,7 @@
     "chartist": "0.10.1",
     "ciqu-react-calendar": "^1.0.2",
     "dayjs": "^1.10.3",
+    "dotenv": "^8.2.0",
     "install": "^0.13.0",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
