@@ -14,11 +14,6 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import mockup_data from "../mockup_data.json"
 
 const session_list = mockup_data.sessions;
-let select_list = [];
-
-session_list.map((session) => {
-  select_list.push({name: session.title})
-})
 
 let sponsor_param = {
   name: "",

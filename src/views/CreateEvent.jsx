@@ -50,22 +50,47 @@ class CreateEvent extends Component {
                         defaultValue=""
                       />
                     </FormGroup>
-                    <FormGroup controlId="category">
-                      <ControlLabel>Category</ControlLabel>
-                      <FormControl
-                        componentClass="select"
-                        bsClass="form-control"
-                        placeholder="Input the envent name."
-                        defaultValue="">
-                          <option>{"Art"}</option>
-                          <option>{"Association"}</option>
-                          <option>{"Auto & Air"}</option>
-                          <option>{"Banking & Finance"}</option>
-                          <option>{"Business"}</option>
-                          <option>{"Charity"}</option>
-                          <option>{"Climate & Environment"}</option>
-                      </FormControl>
-                    </FormGroup>
+                    <Row>
+                      <Col md={12}>
+                        <FormGroup controlId="category" className="col-md-5" style={{paddingLeft: "0px"}}>
+                          <ControlLabel>Category</ControlLabel>
+                          <FormControl
+                            componentClass="select"
+                            bsClass="form-control"
+                            placeholder="Input the envent name."
+                            defaultValue="">
+                              <option>{"Art"}</option>
+                              <option>{"Association"}</option>
+                              <option>{"Auto & Air"}</option>
+                              <option>{"Banking & Finance"}</option>
+                              <option>{"Business"}</option>
+                              <option>{"Charity"}</option>
+                              <option>{"Climate & Environment"}</option>
+                          </FormControl>
+                        </FormGroup>
+                        <FormGroup controlId="category" className="col-md-5" style={{paddingLeft: "0px"}}>
+                          <ControlLabel>Fee</ControlLabel>
+                          <FormControl
+                            componentClass="select"
+                            bsClass="form-control"
+                            placeholder="Input the envent name."
+                            defaultValue="">
+                              <option>{"Absorb all fees"}</option>
+                              <option>{"Pass on all fees"}</option>
+                          </FormControl>
+                        </FormGroup>
+                        <FormGroup controlId="eventPrice" className="col-md-2" style={{paddingRight: "0px"}}>
+                          <ControlLabel>Event Price</ControlLabel>
+                          <FormControl
+                            componentClass="input"
+                            type="number"
+                            bsClass="form-control"
+                            placeholder="Event Price"
+                            defaultValue=""
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
                     <FormGroup controlId="image">
                       <ControlLabel>Image</ControlLabel>
                       <div className="custom-file">
@@ -121,31 +146,6 @@ class CreateEvent extends Component {
                         <input type="text" value={""} className="form-control" onChange={this.onDatesChange}/>
                       </DateRangePicker>
                     </FormGroup>
-                    
-                    <Row>
-                      <Col md={12}>
-                        <FormGroup controlId="eventPrice" className="col-md-6" style={{paddingLeft: "0px"}}>
-                          <ControlLabel>Event Price</ControlLabel>
-                          <FormControl
-                            componentClass="input"
-                            type="number"
-                            bsClass="form-control"
-                            placeholder="Event Price"
-                            defaultValue=""
-                          />
-                        </FormGroup>
-                        <FormGroup controlId="translationPrice" className="col-md-6" style={{paddingRight: "0px"}}>
-                          <ControlLabel>Translation Price</ControlLabel>
-                          <FormControl
-                            componentClass="input"
-                            type="number"
-                            bsClass="form-control"
-                            placeholder="Translation Price"
-                            defaultValue=""
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
                     <Button bsStyle="info" pullRight fill type="submit">
                       Create
                     </Button>
