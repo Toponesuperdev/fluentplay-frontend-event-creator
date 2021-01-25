@@ -150,6 +150,46 @@ class EventInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{event_info.category}</h5>
                       }
                     </FormGroup>
+                    <Row>
+                      <Col md={12}>
+                        <FormGroup controlId="category" className="col-md-6" className="col-md-6" style={{paddingLeft: "0px"}}>
+                          <ControlLabel>Category</ControlLabel>
+                          {editable 
+                            ? 
+                              <FormControl
+                                componentClass="select"
+                                bsClass="form-control"
+                                defaultValue={event_info.category}
+                                onChange={this.handleCategoryChange}
+                              >
+                                  <option>{"Art"}</option>
+                                  <option>{"Association"}</option>
+                                  <option>{"Auto & Air"}</option>
+                                  <option>{"Banking & Finance"}</option>
+                                  <option>{"Business"}</option>
+                                  <option>{"Charity"}</option>
+                                  <option>{"Climate & Environment"}</option>
+                              </FormControl>
+                            : <h5 style={{padding: "8px"}}>{event_info.category}</h5>
+                          }
+                        </FormGroup>
+                        <FormGroup controlId="eventPrice" className="col-md-6" style={{paddingRight: "0px"}}>
+                          <ControlLabel>Event Price</ControlLabel>
+                          {editable 
+                            ? 
+                              <FormControl
+                                componentClass="input"
+                                type="number"
+                                bsClass="form-control"
+                                placeholder="Event Price"
+                                defaultValue={event_info.event_price}
+                                onChange={this.handleEventPriceChange}
+                              />
+                            : <h5 style={{padding: "8px"}}>{event_info.event_price}$</h5>
+                          }
+                        </FormGroup>
+                      </Col>
+                    </Row>
                     <FormGroup controlId="image">
                       <ControlLabel>Image</ControlLabel>
                       {editable 
@@ -219,41 +259,6 @@ class EventInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{`${moment(event_info.start_time).format("MM/DD/YYYY")} - ${moment(event_info.end_time).format("MM/DD/YYYY")}`}</h5>
                       }
                     </FormGroup>
-                    
-                    <Row>
-                      <Col md={12}>
-                        <FormGroup controlId="eventPrice" className="col-md-6" style={{paddingLeft: "0px"}}>
-                          <ControlLabel>Event Price</ControlLabel>
-                          {editable 
-                            ? 
-                              <FormControl
-                                componentClass="input"
-                                type="number"
-                                bsClass="form-control"
-                                placeholder="Event Price"
-                                defaultValue={event_info.event_price}
-                                onChange={this.handleEventPriceChange}
-                              />
-                            : <h5 style={{padding: "8px"}}>{event_info.event_price}$</h5>
-                          }
-                        </FormGroup>
-                        <FormGroup controlId="translationPrice" className="col-md-6" style={{paddingRight: "0px"}}>
-                          <ControlLabel>Translation Price</ControlLabel>
-                          {editable 
-                            ? 
-                              <FormControl
-                                componentClass="input"
-                                type="number"
-                                bsClass="form-control"
-                                placeholder="Translation Price"
-                                defaultValue={event_info.translation_price}
-                                onChange={this.handleTranslationPriceChange}
-                              />
-                            : <h5 style={{padding: "8px"}}>{event_info.translation_price}$</h5>
-                          }
-                        </FormGroup>
-                      </Col>
-                    </Row>
                     {editable 
                       ? 
                         <>

@@ -10,9 +10,12 @@ import {
 
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import moment from 'moment';
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
+
 
 import mockup_data from "../mockup_data.json"
 const event_list = mockup_data.events;
@@ -76,7 +79,7 @@ class CreateSession extends Component {
                           })}
                         </FormControl>
                     </FormGroup>
-                    <FormGroup controlId="yourLanguage" className="col-md-4" style={{paddingLeft: "0px"}}>
+                    <FormGroup controlId="yourLanguage" className="col-md-4" style={{paddingLeft: "0px", paddingRight: "0px"}}>
                       <ControlLabel>Your Language</ControlLabel>
                       <FormControl
                         componentClass="select"
@@ -108,7 +111,7 @@ class CreateSession extends Component {
                           <option>{"Portuguese"}</option>
                       </FormControl>
                     </FormGroup>
-                    <FormGroup controlId="sessonTitle" className="col-md-6" style={{paddingLeft: "0px"}}>
+                    <FormGroup controlId="sessonTitle" className="col-md-4" style={{paddingLeft: "0px"}}>
                       <ControlLabel>Session Title</ControlLabel>
                       <FormControl
                         componentClass="input"
@@ -117,9 +120,26 @@ class CreateSession extends Component {
                         defaultValue=""
                       />
                     </FormGroup>
-                    <FormGroup controlId="eventName" className="col-md-6" style={{paddingRight: "0px"}}>
-                      <ControlLabel>From - To</ControlLabel>
+                    <FormGroup controlId="eventName" className="col-md-2" style={{paddingLeft: "0px", paddingRight: "10px"}}>
+                      <ControlLabel>Date</ControlLabel>
                       <DayPickerInput onDayChange={this.handleDayChange} className="form-control"/>
+                    </FormGroup>
+                    <FormGroup controlId="eventName" className="col-md-2" style={{paddingLeft: "0px", paddingRight: "0px"}}>
+                      <ControlLabel>Time(From - To)</ControlLabel>
+                      <div style={{display: "flex", marginLeft: "0px 10px"}}>
+                        <TimePicker className="session-timepicker" defaultValue={moment()} showSecond={false} minuteStep={15} />
+                        <TimePicker className="session-timepicker" defaultValue={moment()} showSecond={false} minuteStep={15} />
+                      </div>
+                    </FormGroup>
+                    <FormGroup controlId="translationPrice" className="col-md-4" style={{paddingRight: "0px"}}>
+                      <ControlLabel>Translation Price</ControlLabel>
+                      <FormControl
+                        componentClass="input"
+                        type="number"
+                        bsClass="form-control"
+                        placeholder="Translation Price"
+                        defaultValue=""
+                      />
                     </FormGroup>
                     <FormGroup controlId="relatedFile" className="col-md-12" style={{paddingRight: "0px", paddingLeft: "0px"}}>
                       <ControlLabel>Files</ControlLabel>

@@ -9,8 +9,7 @@
 			"timezone": "(GMT +1:00) Brussels, Copenhagen, Madrid, Paris",
 			"start_time": "Tue Jan 19 2021 00:00:00 GMT+0200",
 			"end_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
-			"event_price": "50",
-			"translation_price": "10"
+			"event_price": "50"
 		},
 		{
 			"id": "8889f617ea4f4f42",
@@ -21,8 +20,7 @@
 			"timezone": "(GMT +1:00) Brussels, Copenhagen, Madrid, Paris",
 			"start_time": "Tue Jan 19 2021 00:00:00 GMT+0200",
 			"end_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
-			"event_price": "80",
-			"translation_price": "15"
+			"event_price": "80"
 		},
 		{
 			"id": "8889f617ea4f4f42",
@@ -33,8 +31,7 @@
 			"timezone": "(GMT +1:00) Brussels, Copenhagen, Madrid, Paris",
 			"start_time": "Tue Jan 19 2021 00:00:00 GMT+0200",
 			"end_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
-			"event_price": "100",
-			"translation_price": "20"
+			"event_price": "100"
 		}
 	],
 	"sessions": [
@@ -44,7 +41,8 @@
 			"title": "Session Title 1",
 			"company_name": "Microsoft LLC",
 			"your_language": "English",
-			"translation_language": "French",
+			"translation_languages": ["French", "French", "Portuguese"],
+			"translation_price": "10",
 			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
@@ -71,7 +69,8 @@
 			"title": "Session Title 2",
 			"company_name": "Amazon LLC",
 			"your_language": "Germany",
-			"translation_language": "Japanese",
+			"translation_languages": ["Japanese", "English", "Italian"],
+			"translation_price": "15",
 			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
@@ -98,7 +97,8 @@
 			"title": "Session Title 3",
 			"company_name": "Google LLC",
 			"your_language": "Portuguese",
-			"translation_language": "Italian",
+			"translation_languages": ["Italian", "Japanese", "French"],
+			"translation_price": "35",
 			"start_time": "Wed Feb 17 2021 23:59:59 GMT+0200",
 			"files": [
 				{
@@ -187,5 +187,6 @@
 				}
 			]
 		}
-	]
+	],
+	"language_list": ["English", "French", "Germany", "Itailian", "Portuguese", "Japanese"]
 }
