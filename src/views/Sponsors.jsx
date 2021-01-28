@@ -8,18 +8,29 @@ import {
 
 import { SponsorCard } from "components/SponsorCard/SponsorCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import mockup_data from "../mockup_data.json"
-
-const mockup_sponsors  = mockup_data.sponsors;
+import { getSponsors } from "../requests/sponsors.jsx"
 
 class Sponsors extends Component {
 
   constructor(props) {
     super(props);
 
+    this.state = {
+      sponsorList: []
+    }
+  }
+
+  componentWillMount() {
+    getSponsors().then((response) => {
+      this.setState({
+        sponsorList: response.data
+      });
+    })
   }
 
   render() {
+    const { sponsorList } = this.state;
+    
     return (
       <div className="content">
         <Grid fluid>
@@ -30,7 +41,7 @@ class Sponsors extends Component {
               </Button>
             </Link>
           </Row>
-          {mockup_sponsors.map((sponsor, idx) => {
+          {sponsorList.map((sponsor, idx) => {
             return (
               <Col md={4} key={idx}>
                 <SponsorCard

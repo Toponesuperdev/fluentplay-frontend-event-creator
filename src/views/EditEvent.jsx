@@ -77,7 +77,7 @@ class EventInformation extends Component {
           eventPrice: eventPrice,
           feeType: feeType,
           temp_info
-        })
+        });
       }
     });
   }

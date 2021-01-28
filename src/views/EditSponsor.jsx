@@ -10,19 +10,14 @@ import {
 
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import mockup_data from "../mockup_data.json"
-
-const session_list = mockup_data.sessions;
+import { getSponsorById, updateSponsor } from "../requests/sponsors.jsx"
 
 let sponsor_param = {
-  name: "",
-  company_website: "",
-  marketing_image: "",
-  promotion_message: "",
-  promotion_url: "",
-  sessions: [
-
-  ]
+  sponsorName: "",
+  companyWebsite: "",
+  marketingImage: "",
+  promotionMessage: "",
+  promotionUrl: "",
 }
 
 class Sponsors extends Component {
@@ -31,47 +26,112 @@ class Sponsors extends Component {
     super(props);
     
     this.state = {
-      editable: false
+      editable: false,
+      edited: false,
+      saving: false,
+      sponsorId: "",
+      sponsorName: "",
+      companyWebsite: "",
+      marketingImage: "",
+      promotionMessage: "",
+      promotionUrl: "",
+      temp_info: {
+        sponsorId: "",
+        sponsorName: "",
+        companyWebsite: "",
+        marketingImage: "",
+        promotionMessage: "",
+        promotionUrl: "",
+      }
     }
+  }
+
+  getSponsorInfo() {
+    let { temp_info } = this.state;
+    temp_info.sponsorId = window.location.pathname.split('/')[2];
+    this.setState({sponsorId: window.location.pathname.split('/')[2], temp_info});
+    getSponsorById(window.location.pathname.split('/')[2]).then((response) => {
+      if (response.status) {
+        const { sponsorName, companyWebsite, marketingImage, promotionMessage, promotionUrl } = response.data;
+        temp_info.sponsorName = sponsorName;
+        temp_info.companyWebsite = companyWebsite;
+        temp_info.marketingImage = marketingImage;
+        temp_info.promotionMessage = promotionMessage;
+        temp_info.promotionUrl = promotionUrl;
+        
+        this.setState({
+          sponsorName: sponsorName,
+          companyWebsite: companyWebsite,
+          marketingImage: marketingImage,
+          promotionMessage: promotionMessage,
+          promotionUrl: promotionUrl,
+        });
+      }
+    });
+  }
+
+  componentWillMount() {
+    this.getSponsorInfo();
   }
 
   handleNameChange(eve) {
-    sponsor_param.name = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.sponsorName = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
   handleCompanyWebsiteChange(eve) {
-    sponsor_param.company_website = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.companyWebsite = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
   handleMarketingImageChange(eve) {
-    sponsor_param.marketing_image = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.marketingImage = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
   handlePromotionMessageChange(eve) {
-    sponsor_param.promotion_message = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.promotionMessage = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
   handlePromotionUrlChange(eve) {
-    sponsor_param.promotion_url = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.promotionUrl = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
   toggleEdit() {
-    console.log(sponsor_param);
-    this.setState({editable: !this.state.editable});
+    this.setState({editable: !this.state.editable, saving: false, edited: false});
+  }
+
+  handleSave() {
+    const { temp_info } = this.state;
+
+    this.setState({saving: true});
+    updateSponsor(temp_info).then((response) => {
+      this.setState({
+        editable: !this.state.editable,
+        saving: false,
+        sponsorName: temp_info.sponsorName,
+        companyWebsite: temp_info.companyWebsite,
+        marketingImage: temp_info.marketingImage,
+        promotionMessage: temp_info.promotionMessage,
+        promotionUrl: temp_info.promotionUrl,
+      });
+    });
   }
 
   render() {
-    const { editable } = this.state;
-    const urlParams = new URLSearchParams(window.location.search);
-    const sponsor_info = {
-      name: urlParams.get("name"),
-      company_website: urlParams.get("company_website"),
-      marketing_image: urlParams.get("marketing_image"),
-      promotion_message: urlParams.get("promotion_message"),
-      promotion_url: urlParams.get("promotion_url"),
-      sessions: JSON.parse(urlParams.get("sessions"))
-    }
-    sponsor_param = sponsor_info;
+    const { editable, sponsorName, companyWebsite, marketingImage, promotionMessage, promotionUrl, edited, saving } = this.state;
 
     return (
       <div className="content">
@@ -82,18 +142,18 @@ class Sponsors extends Component {
                 title={editable ? "Edit sponsor": ""}
                 content={
                   <div>
-                    <FormGroup controlId="sponsorName">
-                      <ControlLabel>Sponsor name</ControlLabel>
+                    <FormGroup controlId="sponsorsponsorName">
+                      <ControlLabel>Sponsor Name</ControlLabel>
                       {editable 
                         ? 
                           <FormControl
                             componentClass="input"
                             bsClass="form-control"
-                            placeholder="Input sponsor's name."
-                            defaultValue={sponsor_info.name}
-                            onChange={this.handleNameChange}
+                            placeholder="Input sponsor's sponsorName."
+                            defaultValue={sponsorName}
+                            onChange={(eve) => this.handleNameChange(eve)}
                           />
-                        : <h5 style={{padding: "8px"}}>{sponsor_info.name}</h5>
+                        : <h5 style={{padding: "8px"}}>{sponsorName}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="companyUrl">
@@ -104,10 +164,10 @@ class Sponsors extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             placeholder="Input Company website url."
-                            defaultValue={sponsor_info.company_website}
-                            onChange={this.handleCompanyWebsiteChange}
+                            defaultValue={companyWebsite}
+                            onChange={(eve) => this.handleCompanyWebsiteChange(eve)}
                           />
-                        : <h5 style={{padding: "8px"}}><a href={sponsor_info.company_website} >{sponsor_info.company_website}</a></h5>
+                        : <h5 style={{padding: "8px"}}><a href={companyWebsite} >{companyWebsite}</a></h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="image">
@@ -118,7 +178,7 @@ class Sponsors extends Component {
                             <input id="inputGroupFile01" type="file" className="custom-file-input from-control" onChange={this.handleMarketingImageChange}/>
                             <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                           </div>
-                        : <h5 style={{padding: "8px"}}>{sponsor_info.marketing_image}</h5>
+                        : <h5 style={{padding: "8px"}}>{marketingImage}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="promotionMesage">
@@ -130,10 +190,10 @@ class Sponsors extends Component {
                             componentClass="textarea"
                             bsClass="form-control"
                             placeholder="Promotion Message"
-                            defaultValue={sponsor_info.promotion_message}
-                            onChange={this.handlePromotionMessageChange}
+                            defaultValue={promotionMessage}
+                            onChange={(eve) => this.handlePromotionMessageChange(eve)}
                           />
-                        : <h5 style={{padding: "8px"}}>{sponsor_info.promotion_message}</h5>
+                        : <h5 style={{padding: "8px"}}>{promotionMessage}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="promotionUrl">
@@ -144,10 +204,10 @@ class Sponsors extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             placeholder="Input the url for promotion."
-                            defaultValue={sponsor_info.promotion_url}
-                            onChange={this.handlePromotionUrlChange}
+                            defaultValue={promotionUrl}
+                            onChange={(eve) => this.handlePromotionUrlChange(eve)}
                           />
-                        : <h5 style={{padding: "8px"}}><a href={sponsor_info.promotion_url} >{sponsor_info.promotion_url}</a></h5>
+                        : <h5 style={{padding: "8px"}}><a href={promotionUrl} >{promotionUrl}</a></h5>
                       }
                     </FormGroup>
                     {editable 
@@ -156,8 +216,8 @@ class Sponsors extends Component {
                           <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
                             Cancel
                           </Button>
-                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()} style={{marginRight: "15px"}}>
-                            Save
+                          <Button disabled={!edited || saving} bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
+                            {saving ? "Saving......" : "Save"}
                           </Button>
                         </>
                       :
