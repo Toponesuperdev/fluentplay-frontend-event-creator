@@ -21,3 +21,10 @@ export const createEvent = (param) => {
       return response.data;
     });
 };
+
+export const updateEvent = (param) => {
+  return axios.put(`${apiUrl}/events`, param)
+    .then((response) => {
+      return response.data;
+    });
+};

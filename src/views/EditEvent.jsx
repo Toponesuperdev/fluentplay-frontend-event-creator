@@ -5,29 +5,16 @@ import {
   Col,
   FormGroup,
   ControlLabel,
-  FormControl
+  FormControl,
 } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import { getEventById } from "../requests/events.jsx"
+import { getEventById, updateEvent } from "../requests/events.jsx"
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 import moment from "moment"
-import { data } from "jquery";
-
-let event_param = {
-  name: "",
-  description: "",
-  category: "",
-  image_path: "",
-  timezone: "",
-  start_time: "",
-  end_time: "",
-  event_price: "",
-  translation_price: ""
-}
 
 class EventInformation extends Component {
   constructor(props) {
@@ -35,61 +22,155 @@ class EventInformation extends Component {
 
     this.state = {
       editable: false,
-      event_info: {}
+      edited: false,
+      saving: false,
+      eventId: "",
+      eventName: "",
+      description: "",
+      category: "",
+      imagePath: "",
+      timezone: "",
+      startTime: "",
+      endTime: "",
+      eventPrice: "",
+      feeType: "",
+      temp_info: {
+        eventId: "",
+        eventName: "",
+        description: "",
+        category: "",
+        imagePath: "",
+        time_zone: "",
+        startTime: "",
+        endTime: "",
+        eventPrice: "",
+        feeType: "",
+      }
     }
   }
 
-  componentWillMount() {
+  getEventInfo() {
+    let { temp_info } = this.state;
+    temp_info.eventId = window.location.pathname.split('/')[2];
+    this.setState({eventId: window.location.pathname.split('/')[2], temp_info});
     getEventById(window.location.pathname.split('/')[2]).then((response) => {
       if (response.status) {
+        const { eventName, description, category, imagePath, time_zone, startTime, endTime, eventPrice, feeType } = response.data;
+        temp_info.eventName = eventName;
+        temp_info.description = description;
+        temp_info.category = category;
+        temp_info.imagePath = imagePath;
+        temp_info.time_zone = time_zone;
+        temp_info.startTime = startTime;
+        temp_info.endTime = endTime;
+        temp_info.eventPrice = eventPrice;
+        temp_info.feeType = feeType;
+        
         this.setState({
-          event_info: response.data
+          eventName: eventName,
+          description: description,
+          category: category,
+          imagePath: imagePath,
+          timezone: time_zone,
+          startTime: startTime,
+          endTime: endTime,
+          eventPrice: eventPrice,
+          feeType: feeType,
+          temp_info
         })
       }
     });
   }
 
-  onDatesChange (event, picker) {
-    event_param.start_time = picker.startDate.toString();
-    event_param.end_time = picker.endDate.toString();
+  componentWillMount() {
+    this.getEventInfo();
   }
 
-  handleNameChange(eve) {
-    event_param.name = eve.target.value;
+  onDatesChange = (start, end) => {
+    let { temp_info } = this.state;
+    temp_info.startTime = moment(start).format("YYYY-MM-DD");
+    temp_info.endTime = moment(end).format("YYYY-MM-DD");
+
+    this.setState({temp_info, edited: true});
   }
 
-  handleDescriptionChange(eve) {
-    event_param.description = eve.target.value;
+  handleNameChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.eventName = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
-  handleCategoryChange(eve) {
-    event_param.category = eve.target.value;
+  handleDescriptionChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.description = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
-  handleImageChange(eve) {
-    event_param.image_path = eve.target.value;
+  handleCategoryChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.category = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
-  handletimezoneChange(eve) {
-    event_param.timezone = eve.target.value;
+  handleImageChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.imagePath = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
 
-  handleEventPriceChange(eve) {
-    event_param.event_price = eve.target.value;
+  handletimezoneChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.time_zone = eve.target.value;
+
+    this.setState({temp_info, edited: true});
+  }
+
+  handleEventPriceChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.eventPrice = eve.target.value;
+
+    this.setState({temp_info, edited: true});
+  }
+
+  handleFeeTypeChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.feeType = eve.target.value;
+
+    this.setState({temp_info, edited: true});
   }
   
-  handleTranslationPriceChange(eve) {
-    event_param.translation_price = eve.target.value;
+  toggleEdit() {
+    this.setState({editable: !this.state.editable, saving: false, edited: false});
   }
 
-  toggleEdit() {
-    console.log(event_param);
-    this.setState({editable: !this.state.editable});
+  handleSave() {
+    const { temp_info } = this.state;
+
+    this.setState({saving: true});
+    updateEvent(temp_info).then((response) => {
+      console.log(response.data);
+      this.setState({
+        editable: !this.state.editable,
+        saving: false,
+        eventName: temp_info.eventName,
+        description: temp_info.description,
+        category: temp_info.category,
+        imagePath: temp_info.imagePath,
+        timezone: temp_info.time_zone,
+        startTime: temp_info.startTime,
+        endTime: temp_info.endTime,
+        eventPrice: temp_info.eventPrice,
+        feeType: temp_info.feeType
+      });
+    });
   }
 
   render() {
-    const { event_info, editable} = this.state;
-    event_param = event_info;
+    const { eventName, description, category, imagePath, timezone, startTime, endTime, eventPrice, feeType, editable, edited, saving } = this.state;
 
     return (
       <div className="content">
@@ -108,10 +189,10 @@ class EventInformation extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             placeholder="Input the envent name."
-                            defaultValue={event_info.eventName}
+                            defaultValue={eventName}
                             onChange={this.handleNameChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{event_info.eventName}</h5>
+                        : <h5 style={{padding: "8px"}}>{eventName}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="formControlsTextarea">
@@ -123,10 +204,10 @@ class EventInformation extends Component {
                             componentClass="textarea"
                             bsClass="form-control"
                             placeholder="Description"
-                            defaultValue={event_info.description}
+                            defaultValue={description}
                             onChange={this.handleDescriptionChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{event_info.description}</h5>
+                        : <h5 style={{padding: "8px"}}>{description}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="category" className="col-md-5" style={{paddingLeft: "0px"}}>
@@ -136,7 +217,7 @@ class EventInformation extends Component {
                           <FormControl
                             componentClass="select"
                             bsClass="form-control"
-                            defaultValue={event_info.category}
+                            defaultValue={category}
                             onChange={this.handleCategoryChange}
                           >
                               <option>{"Art"}</option>
@@ -147,7 +228,7 @@ class EventInformation extends Component {
                               <option>{"Charity"}</option>
                               <option>{"Climate & Environment"}</option>
                           </FormControl>
-                        : <h5 style={{padding: "8px"}}>{event_info.category}</h5>
+                        : <h5 style={{padding: "8px"}}>{category}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="category" className="col-md-5" style={{paddingLeft: "0px"}}>
@@ -158,14 +239,14 @@ class EventInformation extends Component {
                             componentClass="select"
                             bsClass="form-control"
                             placeholder="Input the envent name."
-                            defaultValue={event_info.feeType}
-                            onChange={(eve) => this.handleFeeTypeChange(eve)}
+                            defaultValue={feeType}
+                            onChange={this.handleFeeTypeChange}
                           >
                               <option>{"Absorb all fees"}</option>
                               <option>{"Pass on all fees"}</option>
                           </FormControl>
                         :
-                          <h5 style={{padding: "8px"}}>{event_info.feeType}</h5>
+                          <h5 style={{padding: "8px"}}>{feeType}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="eventPrice" className="col-md-2" style={{paddingRight: "0px"}}>
@@ -177,10 +258,10 @@ class EventInformation extends Component {
                             type="number"
                             bsClass="form-control"
                             placeholder="Event Price"
-                            defaultValue={event_info.eventPrice}
+                            defaultValue={eventPrice}
                             onChange={this.handleEventPriceChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{event_info.eventPrice}$</h5>
+                        : <h5 style={{padding: "8px"}}>{eventPrice}$</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="image">
@@ -191,7 +272,7 @@ class EventInformation extends Component {
                             <input id="inputGroupFile01" type="file" className="custom-file-input from-control" onChange={this.handleImageChange}/>
                             <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
                           </div>
-                        : <h5 style={{padding: "8px"}}>{event_info.imagePath}</h5>
+                        : <h5 style={{padding: "8px"}}>{imagePath}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="timezoneList" className="col-md-6" style={{paddingLeft: "0px"}}>
@@ -201,7 +282,7 @@ class EventInformation extends Component {
                           <FormControl
                           componentClass="select"
                           bsClass="form-control"
-                          defaultValue={event_info.time_zone}
+                          defaultValue={timezone}
                           onChange={this.handletimezoneChange}
                         >
                             <option>(GMT -12:00) Eniwetok, Kwajalein</option>
@@ -236,7 +317,7 @@ class EventInformation extends Component {
                             <option>(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
                             <option>(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
                          </FormControl>
-                        : <h5 style={{padding: "8px"}}>{event_info.time_zone}</h5>
+                        : <h5 style={{padding: "8px"}}>{timezone}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="eventName" className="col-md-6" style={{paddingRight: "0px"}}>
@@ -244,12 +325,12 @@ class EventInformation extends Component {
                       {editable 
                         ? 
                           <DateRangePicker
-                            initialSettings={{ startDate: moment(event_info.startTime), endDate: moment(event_info.endTime) }}
-                            onEvent={this.onDatesChange}
+                            initialSettings={{ startDate: moment(startTime), endDate: moment(endTime) }}
+                            onCallback={(start, end, label) => this.onDatesChange(start, end, label)}
                           >
-                            <input type="text" value={`${event_info.startTime} - ${event_info.endTime}`} className="form-control" onChange={this.onDatesChange}/>
+                            <input type="text" value={`${startTime} - ${endTime}`} className="form-control" onChange={this.onDatesChange}/>
                           </DateRangePicker>
-                        : <h5 style={{padding: "8px"}}>{`${moment(event_info.startTime).format("MM/DD/YYYY")} - ${moment(event_info.endTime).format("MM/DD/YYYY")}`}</h5>
+                        : <h5 style={{padding: "8px"}}>{`${moment(startTime).format("MM/DD/YYYY")} - ${moment(endTime).format("MM/DD/YYYY")}`}</h5>
                       }
                     </FormGroup>
                     {editable 
@@ -258,8 +339,8 @@ class EventInformation extends Component {
                           <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
                             Cancel
                           </Button>
-                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()} style={{marginRight: "15px"}}>
-                            Save
+                          <Button disabled={!edited || saving} bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
+                            {saving ? "Saving......" : "Save"}
                           </Button>
                         </>
                       :

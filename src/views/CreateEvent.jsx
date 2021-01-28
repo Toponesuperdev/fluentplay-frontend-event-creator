@@ -54,6 +54,7 @@ class CreateEvent extends Component {
       feeType: feeType
     }).then((response) => {
       console.log(response);
+      window.location.href = `/events/${response.data.eventId}`
     });
   }
 
