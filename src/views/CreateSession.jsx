@@ -12,6 +12,7 @@ import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import { Multiselect } from 'multiselect-react-dropdown';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
@@ -19,6 +20,7 @@ import 'rc-time-picker/assets/index.css';
 
 import mockup_data from "../mockup_data.json"
 const event_list = mockup_data.events;
+const sponsor_list = mockup_data.sponsors;
 
 class CreateSession extends Component {
 
@@ -148,7 +150,17 @@ class CreateSession extends Component {
                         <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
                       </div>
                     </FormGroup>
-                    
+                    <FormGroup controlId="sponsors">
+                      <ControlLabel>Sponsors</ControlLabel>
+                      <Multiselect
+                        options={sponsor_list}
+                        // selectedValues={this.state.selectedValue}
+                        // onSelect={this.onSelect}
+                        // onRemove={this.onRemove}
+                        displayValue="name"
+                      />
+                    </FormGroup>                    
+
                     <Button bsStyle="info" pullRight fill type="submit">
                       Create
                     </Button>

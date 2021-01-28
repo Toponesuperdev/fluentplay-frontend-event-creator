@@ -7,17 +7,27 @@ import {
 } from "react-bootstrap";
 import { EventCard } from "components/EventCard/EventCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import mockup_data from "../mockup_data.json"
-
-const mockup_events = mockup_data.events;
+import { getEvents } from "../requests/events.jsx"
 
 class EventInformation extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      eventList: []
+    }
+  }
+
+  componentWillMount() {
+    getEvents().then((response) => {
+      this.setState({
+        eventList: response.data
+      });
+    })
   }
   
   render() {
+    const { eventList } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -28,7 +38,7 @@ class EventInformation extends Component {
               </Button>
             </Link>
           </Row>
-          {mockup_events.map((event, idx) => {
+          {eventList.map((event, idx) => {
             return (
               <Col md={4} key={idx}>
                 <EventCard

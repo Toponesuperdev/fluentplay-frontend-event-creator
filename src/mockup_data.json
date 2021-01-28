@@ -61,7 +61,17 @@
 			"event": {
 				"id": "7d926d467da9a27e",
 				"name": "Event 3"
-			}
+			},
+			"sponsors": [
+				{
+					"id": "7d926d467da9a27e",
+					"name": "Sponsor 1"
+				},
+				{
+					"id": "7d926d467da9a27e",
+					"name": "Sponsor 3"
+				}
+			]
 		},
 		{
 			"id": "7d926d467da9a27e",
@@ -89,7 +99,17 @@
 			"event": {
 				"id": "7d926d467da9a27e",
 				"name": "Event 2"
-			}
+			},
+			"sponsors": [
+				{
+					"id": "7d926d467da9a27e",
+					"name": "Sponsor 1"
+				},
+				{
+					"id": "7d926d467da9a27e",
+					"name": "Sponsor 3"
+				}
+			]
 		},
 		{
 			"id": "7d926d467da9a27e",
@@ -129,7 +149,17 @@
 			"event": {
 				"id": "7d926d467da9a27e",
 				"name": "Event 1"
-			}
+			},
+			"sponsors": [
+				{
+					"id": "7d926d467da9a27e",
+					"name": "Sponsor 1"
+				},
+				{
+					"id": "7d926d467da9a27e",
+					"name": "Sponsor 3"
+				}
+			]
 		}
 	],
 	"sponsors": [

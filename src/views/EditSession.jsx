@@ -18,6 +18,8 @@ import 'react-day-picker/lib/style.css';
 
 import mockup_data from "../mockup_data.json"
 
+const sponsor_list = mockup_data.sponsors;
+
 let language_list = [];
 mockup_data.language_list.map((language, idx) => {
   language_list.push({id: idx, name: language});
@@ -97,7 +99,8 @@ class SessionInformation extends Component {
       translation_price: urlParams.get("translation_price"),
       start_time: urlParams.get("start_time"),
       files: JSON.parse(urlParams.get("files")),
-      event: JSON.parse(urlParams.get("event"))
+      event: JSON.parse(urlParams.get("event")),
+      sponsors: mockup_data.sessions[0].sponsors
     }
     session_param = session_info;
 
@@ -287,7 +290,29 @@ class SessionInformation extends Component {
                           </div>
                       }
                     </FormGroup>
-                    
+                    <FormGroup controlId="sponsors">
+                      <ControlLabel>Sponsors</ControlLabel>
+                      {editable 
+                        ? 
+                          <Multiselect
+                            options={sponsor_list}
+                            // selectedValues={this.state.selectedValue}
+                            // onSelect={this.onSelect}
+                            // onRemove={this.onRemove}
+                            displayValue="name"
+                          />
+                        : 
+                          <div style={{display: "flex"}}>
+                            {session_info.sponsors.map((sponsor, idx) => {
+                              return (
+                                <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
+                                  <label style={{color: "white", margin: "0px"}}>{sponsor.name}</label>
+                                </div>
+                              )
+                            })}
+                          </div>
+                      }
+                    </FormGroup>                    
                     {editable 
                       ? 
                         <>

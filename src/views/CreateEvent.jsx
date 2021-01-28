@@ -10,15 +10,87 @@ import {
 
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-
+import { createEvent } from "../requests/events.jsx"
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
+import moment from "moment";
 
 class CreateEvent extends Component {
+  constructor(props) {
+    super(props);
 
-  onDatesChange = ({ startDate, endDate }) => {
-    console.log(({ startDate, endDate }));
+    this.state = {
+      category: "Art",
+      description: "",
+      endTime: "",
+      eventName: "",
+      eventPrice: 0,
+      imagePath: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+      startTime: "",
+      time_zone: "(GMT -12:00) Eniwetok, Kwajalein",
+      feeType: "Absorb all fees"
+    }
+  }
+
+  onDatesChange = (start, end) => {
+    this.setState({
+      startTime: moment(start).format("YYYY-MM-DD"),
+      endTime: moment(end).format("YYYY-MM-DD")
+    })
+  }
+
+  handleCreate() {
+    const {category, description, endTime, eventName, eventPrice, imagePath , startTime, time_zone, feeType} = this.state;
+    createEvent({
+      category: category,
+      description: description,
+      endTime: endTime,
+      eventName: eventName,
+      eventPrice: eventPrice,
+      imagePath: imagePath,
+      startTime: startTime,
+      time_zone: time_zone,
+      feeType: feeType
+    }).then((response) => {
+      console.log(response);
+    });
+  }
+
+  handleNameChange(eve) {
+    this.setState({eventName: eve.target.value})
+  }
+
+  handleDescriptionChange(eve) {
+    this.setState({description: eve.target.value})
+  }
+
+  handleCategoryChange(eve) {
+    this.setState({category: eve.target.value})
+  }
+
+  handleFeeTypeChange(eve) {
+    this.setState({feeType: eve.target.value})
+  }
+
+  handlePriceChange(eve) {
+    this.setState({eventPrice: eve.target.value})
+  }
+
+  handleTimezoneChange(eve) {
+    this.setState({time_zone: eve.target.value})
+  }
+
+  handleNameChange(eve) {
+    this.setState({eventName: eve.target.value})
+  }
+
+  handleNameChange(eve) {
+    this.setState({eventName: eve.target.value})
+  }
+
+  handleNameChange(eve) {
+    this.setState({eventName: eve.target.value})
   }
 
   render() {
@@ -38,6 +110,7 @@ class CreateEvent extends Component {
                         bsClass="form-control"
                         placeholder="Input the envent name."
                         defaultValue=""
+                        onChange={(eve) => this.handleNameChange(eve)}
                       />
                     </FormGroup>
                     <FormGroup controlId="formControlsTextarea">
@@ -48,6 +121,7 @@ class CreateEvent extends Component {
                         bsClass="form-control"
                         placeholder="Description"
                         defaultValue=""
+                        onChange={(eve) => this.handleDescriptionChange(eve)}
                       />
                     </FormGroup>
                     <Row>
@@ -58,7 +132,9 @@ class CreateEvent extends Component {
                             componentClass="select"
                             bsClass="form-control"
                             placeholder="Input the envent name."
-                            defaultValue="">
+                            defaultValue=""
+                            onChange={(eve) => this.handleCategoryChange(eve)}
+                          >
                               <option>{"Art"}</option>
                               <option>{"Association"}</option>
                               <option>{"Auto & Air"}</option>
@@ -74,7 +150,9 @@ class CreateEvent extends Component {
                             componentClass="select"
                             bsClass="form-control"
                             placeholder="Input the envent name."
-                            defaultValue="">
+                            defaultValue=""
+                            onChange={(eve) => this.handleFeeTypeChange(eve)}
+                          >
                               <option>{"Absorb all fees"}</option>
                               <option>{"Pass on all fees"}</option>
                           </FormControl>
@@ -87,6 +165,7 @@ class CreateEvent extends Component {
                             bsClass="form-control"
                             placeholder="Event Price"
                             defaultValue=""
+                            onChange={(eve) => this.handlePriceChange(eve)}
                           />
                         </FormGroup>
                       </Col>
@@ -104,7 +183,9 @@ class CreateEvent extends Component {
                         componentClass="select"
                         bsClass="form-control"
                         placeholder="Select timezone."
-                        defaultValue="">
+                        defaultValue=""
+                        onChange={(eve) => this.handleTimezoneChange(eve)}
+                      >
                           <option>(GMT -12:00) Eniwetok, Kwajalein</option>
                           <option>(GMT -11:00) Midway Island, Samoa</option>
                           <option>(GMT -10:00) Hawaii</option>
@@ -142,11 +223,12 @@ class CreateEvent extends Component {
                       <ControlLabel>From - To</ControlLabel>
                       <DateRangePicker
                         initialSettings={{ startDate: new Date() }}
+                        onCallback={(start, end, label) => this.onDatesChange(start, end, label)}
                       >
-                        <input type="text" value={""} className="form-control" onChange={this.onDatesChange}/>
+                        <input type="text" value={""} className="form-control"/>
                       </DateRangePicker>
                     </FormGroup>
-                    <Button bsStyle="info" pullRight fill type="submit">
+                    <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.handleCreate()}> 
                       Create
                     </Button>
                     <div className="clearfix" />
