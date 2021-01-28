@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 
 import { Card } from "components/Card/Card.jsx";
+import { createSponsor } from "../requests/sponsors.jsx"
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Multiselect } from 'multiselect-react-dropdown';
 import mockup_data from "../mockup_data.json"
@@ -25,10 +26,52 @@ class CreateSponsor extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      sponsorName: "",
+      companyWebsite: "",
+      marketingImage: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
+      promotionMessage: "",
+      promotionUrl: ""
+    }
   }
 
-  handleDayChange(day) {
-    this.setState({ selectedDay: day });
+  handleNameChange(eve) {
+    this.setState({sponsorName: eve.target.value});
+  }
+
+  handleCompanyWebsiteChange(eve) {
+    this.setState({companyWebsite: eve.target.value});
+  }
+
+  handleMarketingImageChange(eve) {
+    this.setState({marketingImage: eve.target.value});
+  }
+
+  handlePromotionMessageChange(eve) {
+    this.setState({promotionMessage: eve.target.value});
+  }
+
+  handlePromotionUrlChange(eve) {
+    this.setState({promotionUrl: eve.target.value});
+  }
+
+  toggleEdit() {
+    this.setState({editable: !this.state.editable, saving: false, edited: false});
+  }
+
+  handleCreate() {
+    const { sponsorName, companyWebsite, marketingImage, promotionMessage, promotionUrl } = this.state;
+
+    createSponsor({
+      sponsorName: sponsorName,
+      companyWebsite: companyWebsite,
+      marketingImage: marketingImage,
+      promotionMessage: promotionMessage,
+      promotionUrl: promotionUrl
+    }).then((response) => {
+      console.log(response);
+      window.location.href = `/sponsors/${response.data.sponsorId}`
+    });
   }
 
   render() {
@@ -48,6 +91,7 @@ class CreateSponsor extends Component {
                         bsClass="form-control"
                         placeholder="Input sponsor's name."
                         defaultValue=""
+                        onChange={(eve) => this.handleNameChange(eve)}
                       />
                     </FormGroup>
                     <FormGroup controlId="companyUrl">
@@ -57,6 +101,7 @@ class CreateSponsor extends Component {
                         bsClass="form-control"
                         placeholder="Input Company website url."
                         defaultValue=""
+                        onChange={(eve) => this.handleCompanyWebsiteChange(eve)}
                       />
                     </FormGroup>
                     <FormGroup controlId="image">
@@ -74,6 +119,7 @@ class CreateSponsor extends Component {
                         bsClass="form-control"
                         placeholder="Promotion Message"
                         defaultValue=""
+                        onChange={(eve) => this.handlePromotionMessageChange(eve)}
                       />
                     </FormGroup>
                     <FormGroup controlId="promotionUrl">
@@ -83,20 +129,11 @@ class CreateSponsor extends Component {
                         bsClass="form-control"
                         placeholder="Input the url for promotion."
                         defaultValue=""
-                      />
-                    </FormGroup>
-                    <FormGroup controlId="promotionUrl">
-                      <ControlLabel>Sessions</ControlLabel>
-                      <Multiselect
-                        options={session_list}
-                        // selectedValues={this.state.selectedValue}
-                        // onSelect={this.onSelect}
-                        // onRemove={this.onRemove}
-                        displayValue="name"
+                        onChange={(eve) => this.handlePromotionUrlChange(eve)}
                       />
                     </FormGroup>
                     
-                    <Button bsStyle="info" pullRight fill type="submit">
+                    <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.handleCreate()}>
                       Create
                     </Button>
                     <div className="clearfix" />
