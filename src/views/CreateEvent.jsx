@@ -82,18 +82,6 @@ class CreateEvent extends Component {
     this.setState({time_zone: eve.target.value})
   }
 
-  handleNameChange(eve) {
-    this.setState({eventName: eve.target.value})
-  }
-
-  handleNameChange(eve) {
-    this.setState({eventName: eve.target.value})
-  }
-
-  handleNameChange(eve) {
-    this.setState({eventName: eve.target.value})
-  }
-
   render() {
     return (
       <div className="content">
