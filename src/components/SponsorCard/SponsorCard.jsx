@@ -4,16 +4,18 @@ import { Link } from "react-router-dom"
 export class SponsorCard extends Component {
   render() {
     const {data} = this.props;
-    const params = `/sponsors/${data.sponsorId}`
+    const redirectUrls = `/sponsors/${data.sponsorId}`
 
     return (
       <div className="card card-event">
         <div className="image">
-          <img src={data.marketingImage} alt="..." />
+          <Link to={redirectUrls}>
+            <img src={data.marketingImage} alt="..." />
+          </Link>
         </div>
         <div className="content">
           <div style={{display: "flex"}}>
-            <Link to={params}>
+            <Link to={redirectUrls}>
               <h4 className="title">
                 {data.sponsorName}
                 <br />

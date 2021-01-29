@@ -863,3 +863,24 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
+.multiselect-container span {
+  background-color: rgb(4, 181, 250);
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 1px;
+}
+
+.multiselect-container .optionContainer .highlight  {
+  background-color: rgb(4, 181, 250);
+}
+
+.multiselect-container .optionContainer li:hover {
+  background-color: rgb(4, 181, 250);
+}
+
+.multiselect-container .optionContainer .notFound {
+  border-radius: 2px;
+  color: white;
+}

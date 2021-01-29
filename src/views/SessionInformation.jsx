@@ -8,18 +8,28 @@ import {
 
 import { SessionCard } from "components/SessionCard/SessionCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import mockup_data from "../mockup_data.json"
-
-const mockup_sessions  = mockup_data.sessions;
+import { getSessions } from "../requests/sessions.jsx"
 
 class SessionInformation extends Component {
 
   constructor(props) {
     super(props);
 
+    this.state = {
+      sessionList: []
+    }
+  }
+
+  componentWillMount() {
+    getSessions().then((response) => {
+      this.setState({
+        sessionList: response.data
+      });
+    })
   }
 
   render() {
+    const { sessionList } = this.state
     return (
       <div className="content">
         <Grid fluid>
@@ -30,7 +40,7 @@ class SessionInformation extends Component {
               </Button>
             </Link>
           </Row>
-          {mockup_sessions.map((session, idx) => {
+          {sessionList.map((session, idx) => {
             return (
               <Col md={4} key={idx}>
                 <SessionCard

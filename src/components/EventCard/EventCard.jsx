@@ -5,16 +5,18 @@ import moment from 'moment';
 export class EventCard extends Component {
   render() {
     const {data} = this.props;
-    const params = `/events/${data.eventId}`
+    const redirectUrls = `/events/${data.eventId}`
 
     return (
       <div className="card card-event">
         <div className="image">
-          <img src={data.imagePath} alt="..." />
+          <Link to={redirectUrls}>
+            <img src={data.imagePath} alt="..." />
+          </Link>
         </div>
         <div className="content">
           <div style={{display: "flex"}}>
-            <Link to={params}>
+            <Link to={redirectUrls}>
               <h4 className="title">
                 {data.eventName}
                 <br />

@@ -15,17 +15,7 @@ import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-
-import mockup_data from "../mockup_data.json"
-
-const sponsor_list = mockup_data.sponsors;
-
-let language_list = [];
-mockup_data.language_list.map((language, idx) => {
-  language_list.push({id: idx, name: language});
-});
-
-const event_list = mockup_data.events;
+import { getSessionById, updateSession } from "../requests/sessions.jsx"
 
 let session_param = {
   name: "",
@@ -47,10 +37,90 @@ class SessionInformation extends Component {
 
     this.state = {
       selectedDay: undefined,
-      editable: false
+      editable: false,
+      edited: false,
+      saving: false,
+      sessionId: "",
+      sessionName: "",
+      sessionTitle: "",
+      companyName: "",
+      event: {},
+      files: [],
+      startTime: "",
+      translationLanguages: [],
+      translationPrice: 0,
+      yourLanguage: "",
+      events: [],
+      sponsors: [],
+      mySponsors: [],
+      temp_info: {
+        sessionId: "",
+        sessionName: "",
+        sessionTitle: "",
+        companyName: "",
+        event: {},
+        files: [],
+        startTime: "",
+        translationLanguages: [],
+        translationPrice: 0,
+        yourLanguage: "",
+        sponsors: [],
+      }
     }
 
     this.handleDayChange = this.handleDayChange.bind(this);
+  }
+
+  getSessionInfo() {
+    let { temp_info } = this.state;
+    temp_info.sessionId = window.location.pathname.split('/')[2];
+    this.setState({sessionId: window.location.pathname.split('/')[2], temp_info});
+    getSessionById(window.location.pathname.split('/')[2]).then((response) => {
+      if (response.status) {
+        const { 
+          sessionName,
+          sessionTitle,
+          companyName,
+          event,
+          files,startTime,
+          translationLanguages,
+          translationPrice,
+          yourLanguage,
+          sponsors
+        } = response.data.sessionInfo;
+        const { events, mySponsors } = response.data;
+        temp_info.sessionName = sessionName;
+        temp_info.sessionTitle = sessionTitle;
+        temp_info.companyName = companyName;
+        temp_info.event = event;
+        temp_info.files = files;
+        temp_info.startTime = startTime;
+        temp_info.translationLanguages = translationLanguages;
+        temp_info.translationPrice = translationPrice;
+        temp_info.yourLanguage = yourLanguage;
+        temp_info.sponsors = sponsors;
+
+        this.setState({
+          sessionName,
+          sessionTitle,
+          companyName,
+          event,
+          files,
+          startTime,
+          translationLanguages,
+          translationPrice,
+          yourLanguage,
+          sponsors,
+          temp_info,
+          events,
+          mySponsors
+        })
+      }
+    });
+  }
+
+  componentWillMount() {
+    this.getSessionInfo();
   }
 
   handleDayChange(day) {
@@ -58,27 +128,27 @@ class SessionInformation extends Component {
     // this.setState({ selectedDay: day });
   }
 
-  handleNameChange(eve) {
+  handleNameChange = (eve) => {
     session_param.name = eve.target.value
   }
 
-  handleTitleChange(eve) {
+  handleTitleChange = (eve) => {
     session_param.title = eve.target.value
   }
 
-  handleCompanyNameChange(eve) {
+  handleCompanyNameChange = (eve) => {
     session_param.company_name = eve.target.value
   }
 
-  handleYourLanguageChange(eve) {
+  handleYourLanguageChange = (eve) => {
     session_param.your_language = eve.target.value
   }
 
-  handleTranslationLanguageChange(eve) {
+  handleTranslationLanguageChange = (eve) => {
     session_param.translation_language = eve.target.value
   }
 
-  handleStartTimeChange(eve) {
+  handleStartTimeChange = (eve) => {
     session_param.start_time = eve.target.value
   }
 
@@ -88,21 +158,41 @@ class SessionInformation extends Component {
   }
 
   render() {
-    const { editable } = this.state;
-    const urlParams = new URLSearchParams(window.location.search);
-    const session_info = {
-      name: urlParams.get("name"),
-      title: urlParams.get("title"),
-      company_name: urlParams.get("company_name"),
-      your_language: urlParams.get("your_language"),
-      translation_languages: JSON.parse(urlParams.get("translation_languages")),
-      translation_price: urlParams.get("translation_price"),
-      start_time: urlParams.get("start_time"),
-      files: JSON.parse(urlParams.get("files")),
-      event: JSON.parse(urlParams.get("event")),
-      sponsors: mockup_data.sessions[0].sponsors
-    }
-    session_param = session_info;
+    const { 
+      sessionName,
+      sessionTitle,
+      companyName,
+      event,
+      files,
+      startTime,
+      translationLanguages,
+      translationPrice,
+      yourLanguage,
+      editable,
+      events,
+      sponsors,
+      mySponsors,
+    } = this.state;
+    
+    let language_list = [];
+    translationLanguages.map((language) => {
+      language_list.push({name: language});
+    });
+
+    let allSponsors = [];
+    mySponsors.map((sponsor) => {
+      allSponsors.push({
+        id: sponsor.sponsorId,
+        name: sponsor.sponsorName
+      });
+    });
+
+    let selectedSponsors = [];
+    sponsors.map((sponsor) => {
+      selectedSponsors.push({
+        name: sponsor.sponsorName
+      });
+    });
 
     return (
       <div className="content">
@@ -121,10 +211,10 @@ class SessionInformation extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             placeholder="Input presentor's name."
-                            defaultValue={session_info.name}
+                            defaultValue={sessionName}
                             onChange={this.handleNameChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{session_info.name}</h5>
+                        : <h5 style={{padding: "8px"}}>{sessionName}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="companyName">
@@ -135,10 +225,10 @@ class SessionInformation extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             placeholder="Input Company or Organization name."
-                            defaultValue={session_info.company_name}
+                            defaultValue={companyName}
                             onChange={this.handleCompanyNameChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{session_info.company_name}</h5>
+                        : <h5 style={{padding: "8px"}}>{companyName}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="event" className="col-md-6" style={{paddingLeft: "0px"}}>
@@ -148,26 +238,26 @@ class SessionInformation extends Component {
                           <FormControl
                             componentClass="select"
                             bsClass="form-control"
-                            defaultValue={session_info.event.name}
+                            defaultValue={event.name}
                             onChange={this.handleYourLanguageChange}
                           >
-                            {event_list.map((eve, idx) => {
+                            {events.map((eve, idx) => {
                               return (
-                                <option key={idx}>{eve.name}</option>
+                                <option key={idx}>{eve.eventName}</option>
                               )
                             })}
                           </FormControl>
-                        : <h5 style={{padding: "8px"}}>{session_info.event.name}</h5>
+                        : <h5 style={{padding: "8px"}}>{event.name}</h5>
                       }
                     </FormGroup>
-                    <FormGroup controlId="yourLanguage" className="col-md-6" style={{paddingLeft: "0px"}}>
+                    <FormGroup controlId="yourLanguage" className="col-md-6" style={{paddingRight: "0px"}}>
                       <ControlLabel>Your Language</ControlLabel>
                       {editable
                         ?
                           <FormControl
                             componentClass="select"
                             bsClass="form-control"
-                            defaultValue={session_info.your_language}
+                            defaultValue={yourLanguage}
                             onChange={this.handleYourLanguageChange}
                           >
                               <option>{"Germany"}</option>
@@ -178,7 +268,7 @@ class SessionInformation extends Component {
                               <option>{"Japanses"}</option>
                               <option>{"Portuguese"}</option>
                           </FormControl>
-                        : <h5 style={{padding: "8px"}}>{session_info.your_language}</h5>
+                        : <h5 style={{padding: "8px"}}>{yourLanguage}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="translationLanguage">
@@ -187,17 +277,18 @@ class SessionInformation extends Component {
                         ? 
                           <Multiselect
                             options={language_list}
-                            // selectedValues={this.state.selectedValue}
+                            selectedValues={language_list}
                             // onSelect={this.onSelect}
                             // onRemove={this.onRemove}
+                            closeIcon="cancel"
                             displayValue="name"
                           />
                         : 
                           <div style={{display: "flex"}}>
-                            {session_info.translation_languages.map((translation_language, idx) => {
+                            {translationLanguages.map((translationLanguage, idx) => {
                               return (
                                 <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
-                                  <label style={{color: "white", margin: "0px"}}>{translation_language}</label>
+                                  <label style={{color: "white", margin: "0px"}}>{translationLanguage}</label>
                                 </div>
                               )
                             })}
@@ -212,10 +303,10 @@ class SessionInformation extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             placeholder="Input the session title."
-                            defaultValue={session_info.title}
+                            defaultValue={sessionTitle}
                             onChange={this.handleTitleChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{session_info.title}</h5>
+                        : <h5 style={{padding: "8px"}}>{sessionTitle}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="eventName" className="col-md-2" style={{paddingLeft: "0px", paddingRight: "0px"}}>
@@ -226,9 +317,9 @@ class SessionInformation extends Component {
                             format="MM/dd/yyyy"
                             onDayChange={this.handleDayChange}
                             className="form-control"
-                            placeholder={moment(session_info.start_time).format("MM/DD/YYYY")}
+                            placeholder={moment(startTime).format("MM/DD/YYYY")}
                           />
-                        : <h5 style={{padding: "8px"}}>{moment(session_info.start_time).format("MM/DD/YYYY")}</h5>
+                        : <h5 style={{padding: "8px"}}>{moment(startTime).format("MM/DD/YYYY")}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="eventName" className="col-md-2" style={{paddingLeft: "0px", paddingRight: "0px"}}>
@@ -252,10 +343,10 @@ class SessionInformation extends Component {
                             type="number"
                             bsClass="form-control"
                             placeholder="Translation Price"
-                            defaultValue={session_info.translation_price}
+                            defaultValue={translationPrice}
                             onChange={this.handleTranslationPriceChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{session_info.translation_price}$</h5>
+                        : <h5 style={{padding: "8px"}}>{translationPrice}$</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="relatedFile" className="col-md-12" style={{paddingRight: "0px", paddingLeft: "0px"}}>
@@ -268,7 +359,7 @@ class SessionInformation extends Component {
                               <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
                             </div>
                             <div style={{display: "flex", marginTop: "10px"}}>
-                              {session_info.files.map((file, idx) => {
+                              {files.map((file, idx) => {
                                 return (
                                   <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
                                     <label style={{color: "white",fontSize: "14px", textTransform: "none", margin: "0px"}}>{file.file_name}</label>
@@ -280,7 +371,7 @@ class SessionInformation extends Component {
                           </>
                         : 
                           <div style={{display: "flex"}}>
-                            {session_info.files.map((file, idx) => {
+                            {files.map((file, idx) => {
                               return (
                                 <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
                                   <a href={"https://brainshares.s3-us-west-2.amazonaws.com/full.jpg"} style={{color: "white"}} download={file.file_name}>{file.file_name}</a>
@@ -295,15 +386,16 @@ class SessionInformation extends Component {
                       {editable 
                         ? 
                           <Multiselect
-                            options={sponsor_list}
-                            // selectedValues={this.state.selectedValue}
+                            options={allSponsors}
+                            selectedValues={selectedSponsors}
                             // onSelect={this.onSelect}
                             // onRemove={this.onRemove}
+                            closeIcon="cancel"
                             displayValue="name"
                           />
                         : 
                           <div style={{display: "flex"}}>
-                            {session_info.sponsors.map((sponsor, idx) => {
+                            {selectedSponsors.map((sponsor, idx) => {
                               return (
                                 <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
                                   <label style={{color: "white", margin: "0px"}}>{sponsor.name}</label>
