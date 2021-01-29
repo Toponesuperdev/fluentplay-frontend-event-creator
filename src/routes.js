@@ -15,17 +15,17 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard from "views/Dashboard.jsx";
-import UserProfile from "views/UserProfile.jsx";
-import TableList from "views/TableList.jsx";
-import Typography from "views/Typography.jsx";
-import Icons from "views/Icons.jsx";
-import Maps from "views/Maps.jsx";
-import Notifications from "views/Notifications.jsx";
+// import Dashboard from "views/Dashboard.jsx";
+// import UserProfile from "views/UserProfile.jsx";
+// import TableList from "views/TableList.jsx";
+// import Typography from "views/Typography.jsx";
+// import Icons from "views/Icons.jsx";
+// import Maps from "views/Maps.jsx";
+// import Notifications from "views/Notifications.jsx";
 import EventInformation from "views/EventInformation.jsx";
 import SessionInformation from "views/SessionInformation.jsx";
 import Sponsors from "views/Sponsors.jsx";
-import { Redirect } from "react-router";
+// import { Redirect } from "react-router";
 // import Upgrade from "views/Upgrade.jsx";
 
 import CreateEvent from "views/CreateEvent.jsx"

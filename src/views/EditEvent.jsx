@@ -181,6 +181,23 @@ class EventInformation extends Component {
                 title={editable ? "Edit event": ""}
                 content={
                   <div>
+                    <div className="col-md-12">
+                      {editable 
+                        ? 
+                          <>
+                            <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
+                              Cancel
+                            </Button>
+                            <Button disabled={!edited || saving} bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
+                              {saving ? "Saving......" : "Save"}
+                            </Button>
+                          </>
+                        :
+                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
+                            Edit
+                          </Button>
+                      }
+                    </div>
                     <FormGroup controlId="eventName">
                       <ControlLabel>Name</ControlLabel>
                       {editable 
@@ -333,21 +350,6 @@ class EventInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{`${moment(startTime).format("MM/DD/YYYY")} - ${moment(endTime).format("MM/DD/YYYY")}`}</h5>
                       }
                     </FormGroup>
-                    {editable 
-                      ? 
-                        <>
-                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
-                            Cancel
-                          </Button>
-                          <Button disabled={!edited || saving} bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
-                            {saving ? "Saving......" : "Save"}
-                          </Button>
-                        </>
-                      :
-                        <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
-                          Edit
-                        </Button>
-                    }
                     <div className="clearfix" />
                   </div>
                 }

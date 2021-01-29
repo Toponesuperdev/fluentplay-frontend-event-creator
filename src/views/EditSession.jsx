@@ -15,7 +15,8 @@ import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import { getSessionById, updateSession } from "../requests/sessions.jsx"
+import { getSessionById } from "../requests/sessions.jsx"
+// import { updateSession } from "../requests/sessions.jsx"
 
 let session_param = {
   name: "",
@@ -203,6 +204,23 @@ class SessionInformation extends Component {
                 title={editable ? "Edit session" : ""}
                 content={
                   <div>
+                    <div className="col-md-12">
+                      {editable 
+                        ? 
+                          <>
+                            <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
+                              Cancel
+                            </Button>
+                            <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()} style={{marginRight: "15px"}}>
+                              Save
+                            </Button>
+                          </>
+                        :
+                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
+                            Edit
+                          </Button>
+                      }
+                    </div>
                     <FormGroup controlId="sessionName">
                       <ControlLabel>Presentor name</ControlLabel>
                       {editable
@@ -330,8 +348,7 @@ class SessionInformation extends Component {
                             <TimePicker className="session-timepicker" defaultValue={moment()} showSecond={false} minuteStep={15} />
                             <TimePicker className="session-timepicker" defaultValue={moment()} showSecond={false} minuteStep={15} />
                           </div>
-                        :
-                          <h5 style={{padding: "8px"}}>{"From - To"}</h5>
+                        : <h5 style={{padding: "8px"}}>{"From - To"}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="translationPrice" className="col-md-4" style={{paddingRight: "0px"}}>
@@ -404,22 +421,7 @@ class SessionInformation extends Component {
                             })}
                           </div>
                       }
-                    </FormGroup>                    
-                    {editable 
-                      ? 
-                        <>
-                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
-                            Cancel
-                          </Button>
-                          <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()} style={{marginRight: "15px"}}>
-                            Save
-                          </Button>
-                        </>
-                      :
-                        <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
-                          Edit
-                        </Button>
-                    }
+                    </FormGroup>
                     <div className="clearfix" />
                   </div>
                 }
