@@ -16,9 +16,9 @@ import mockup_data from "../mockup_data.json"
 const session_list = mockup_data.sessions;
 let select_list = [];
 
-session_list.map((session) => {
-  select_list.push({name: session.title})
-})
+session_list.forEach(function(session) {
+  select_list.push({name: session.title});
+});
 
 class CreateSponsor extends Component {
 

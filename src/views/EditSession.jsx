@@ -175,12 +175,12 @@ class SessionInformation extends Component {
     } = this.state;
     
     let language_list = [];
-    translationLanguages.map((language) => {
+    translationLanguages.forEach(function(language) {
       language_list.push({name: language});
     });
 
     let allSponsors = [];
-    mySponsors.map((sponsor) => {
+    mySponsors.forEach(function(sponsor) {
       allSponsors.push({
         id: sponsor.sponsorId,
         name: sponsor.sponsorName
@@ -188,7 +188,7 @@ class SessionInformation extends Component {
     });
 
     let selectedSponsors = [];
-    sponsors.map((sponsor) => {
+    sponsors.forEach(function(sponsor) {
       selectedSponsors.push({
         name: sponsor.sponsorName
       });
