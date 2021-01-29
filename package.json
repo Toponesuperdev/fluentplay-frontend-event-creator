@@ -26,6 +26,7 @@
     "react-bootstrap-daterangepicker": "^7.0.0",
     "react-bootstrap-datetimepicker": "0.0.22",
     "react-bootstrap-datetimerangepicker": "^2.0.4",
+    "react-bootstrap-time-picker": "^1.0.4",
     "react-chartist": "0.13.3",
     "react-day-picker": "^7.4.8",
     "react-dom": "16.8.6",

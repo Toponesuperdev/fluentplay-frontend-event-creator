@@ -119,6 +119,7 @@ class Sponsors extends Component {
         promotionMessage: temp_info.promotionMessage,
         promotionUrl: temp_info.promotionUrl,
       });
+      this.props.handleClick("tr", "success", `The sponsor ${temp_info.sponsorName} is updated successfully.`);
     });
   }
 

@@ -11,25 +11,22 @@ import moment from "moment";
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { Multiselect } from 'multiselect-react-dropdown';
-import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { getSessionById } from "../requests/sessions.jsx"
 // import { updateSession } from "../requests/sessions.jsx"
+import TimePicker from 'react-bootstrap-time-picker';
 
-let session_param = {
-  name: "",
-  title: "",
-  company_name: "",
-  your_language: "",
-  translation_language: "",
-  start_time: "",
-  files: [
 
-  ],
-  event: ""
-}
+const languages = [
+  {name: "English"},
+  {name: "French"},
+  {name: "Germany"},
+  {name: "Italian"},
+  {name: "Portuguese"},
+  {name: "Japanese"}
+];
 
 class SessionInformation extends Component {
 
@@ -62,6 +59,7 @@ class SessionInformation extends Component {
         event: {},
         files: [],
         startTime: "",
+        time: {},
         translationLanguages: [],
         translationPrice: 0,
         yourLanguage: "",
@@ -124,38 +122,130 @@ class SessionInformation extends Component {
     this.getSessionInfo();
   }
 
-  handleDayChange(day) {
-    // console.log(day);
-    // this.setState({ selectedDay: day });
+  handleTransLanguageSelect = (selectedList) => {
+    let { temp_info } = this.state;
+    let selectedLanguages = [];
+
+    selectedList.forEach(function(language) {
+      selectedLanguages.push(language.name);
+    });
+
+    temp_info.translationLanguages = selectedLanguages;
+    this.setState({temp_info, edited: true});
   }
 
+  handleTransLanguageRemove = (selectedList) => {
+    let { temp_info } = this.state;
+    let selectedLanguages = [];
+
+    selectedList.forEach(function(language) {
+      selectedLanguages.push(language.name);
+    });
+
+    temp_info.translationLanguages = selectedLanguages;
+    this.setState({temp_info, edited: true});
+  }
+
+  handleSponsorSelect = (selectedList) => {
+    let { temp_info, mySponsors } = this.state;
+    let selectedSponsors = [];
+
+    selectedList.forEach(function(selectedSponsor) {
+      mySponsors.forEach(function(sponsor) {
+        if (selectedSponsor.name === sponsor.sponsorName)
+          selectedSponsors.push(sponsor);
+      });
+    });
+
+    temp_info.sponsors = selectedSponsors;
+    this.setState({temp_info, edited: true});
+  }
+
+  handleSponsorRemove = (selectedList) => {
+    let { temp_info, mySponsors } = this.state;
+    let selectedSponsors = [];
+
+    selectedList.forEach(function(selectedSponsor) {
+      mySponsors.forEach(function(sponsor) {
+        if (selectedSponsor.name === sponsor.sponsorName)
+          selectedSponsors.push(sponsor);
+      });
+    });
+
+    temp_info.sponsors = selectedSponsors;
+    this.setState({temp_info, edited: true});
+  }
+  
   handleNameChange = (eve) => {
-    session_param.name = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.sessionName = eve.target.value;
+    
+    this.setState({temp_info, edited: true});
   }
-
-  handleTitleChange = (eve) => {
-    session_param.title = eve.target.value
-  }
-
+  
   handleCompanyNameChange = (eve) => {
-    session_param.company_name = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.companyName = eve.target.value;
+    
+    this.setState({temp_info, edited: true});
   }
+  
+  handleEventChange = (eve) => {
+    let { temp_info, events } = this.state;
+    
+    events.forEach(function(event) {
+      if (event.eventName === eve.target.value)
+        temp_info.event = event;
+      });
 
+      this.setState({temp_info, edited: true});
+    }
+  
   handleYourLanguageChange = (eve) => {
-    session_param.your_language = eve.target.value
+    let { temp_info } = this.state;
+    temp_info.yourLanguage = eve.target.value;
+
+    this.setState({temp_info, edited: true});
+  }
+  
+  handleTitleChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.sessionTitle = eve.target.value;
+    
+    this.setState({temp_info, edited: true});
+  }
+  
+  handleDayChange(day) {
+    let { temp_info } = this.state;
+    temp_info.time.from = moment(day).format();
+    
+    this.setState({temp_info, edited: true});
   }
 
-  handleTranslationLanguageChange = (eve) => {
-    session_param.translation_language = eve.target.value
+  handleFromTimeChange = (time) => {
+    // let time = document.getElementsByClassName("rc-time-picker-input")[0].value;
+    console.log(time, "++++++");
+  }
+  
+  handleToTimeChange = (time) => {
+    // console.log(eve.format("HH:MM"), "++++++");
+    console.log(time, "++++++");
   }
 
-  handleStartTimeChange = (eve) => {
-    session_param.start_time = eve.target.value
+  handleTranslationPriceChange = (eve) => {
+    let { temp_info } = this.state;
+    temp_info.translationPrice = parseInt(eve.target.value);
+    
+    this.setState({temp_info, edited: true});
   }
 
   toggleEdit() {
-    console.log(session_param)
     this.setState({editable: !this.state.editable});
+  }
+
+  handleSave() {
+    const { temp_info } = this.state;
+    console.log(temp_info, "+++++++++++++++++++");
   }
 
   render() {
@@ -211,7 +301,7 @@ class SessionInformation extends Component {
                             <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
                               Cancel
                             </Button>
-                            <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()} style={{marginRight: "15px"}}>
+                            <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
                               Save
                             </Button>
                           </>
@@ -257,7 +347,7 @@ class SessionInformation extends Component {
                             componentClass="select"
                             bsClass="form-control"
                             defaultValue={event.name}
-                            onChange={this.handleYourLanguageChange}
+                            onChange={this.handleEventChange}
                           >
                             {events.map((eve, idx) => {
                               return (
@@ -268,7 +358,7 @@ class SessionInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{event.name}</h5>
                       }
                     </FormGroup>
-                    <FormGroup controlId="yourLanguage" className="col-md-6" style={{paddingRight: "0px"}}>
+                    <FormGroup controlId="yourLanguage" className="col-md-6" style={{paddingLeft: "0px", paddingRight: "0px"}}>
                       <ControlLabel>Your Language</ControlLabel>
                       {editable
                         ?
@@ -294,10 +384,10 @@ class SessionInformation extends Component {
                       {editable 
                         ? 
                           <Multiselect
-                            options={language_list}
+                            options={languages}
                             selectedValues={language_list}
-                            // onSelect={this.onSelect}
-                            // onRemove={this.onRemove}
+                            onSelect={this.handleTransLanguageSelect}
+                            onRemove={this.handleTransLanguageRemove}
                             closeIcon="cancel"
                             displayValue="name"
                           />
@@ -313,7 +403,7 @@ class SessionInformation extends Component {
                           </div>
                       }
                     </FormGroup>
-                    <FormGroup controlId="sessonTitle" className="col-md-4" style={{paddingLeft: "0px"}}>
+                    <FormGroup controlId="sessonTitle" className="col-md-12" style={{paddingLeft: "0px", paddingRight: "0px"}}>
                       <ControlLabel>Session Title</ControlLabel>
                       {editable
                         ?
@@ -327,7 +417,7 @@ class SessionInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{sessionTitle}</h5>
                       }
                     </FormGroup>
-                    <FormGroup controlId="eventName" className="col-md-2" style={{paddingLeft: "0px", paddingRight: "0px"}}>
+                    <FormGroup controlId="eventName" className="col-md-4" style={{paddingLeft: "0px", paddingRight: "0px"}}>
                       <ControlLabel>From</ControlLabel>
                       {editable
                         ?
@@ -340,13 +430,15 @@ class SessionInformation extends Component {
                         : <h5 style={{padding: "8px"}}>{moment(startTime).format("MM/DD/YYYY")}</h5>
                       }
                     </FormGroup>
-                    <FormGroup controlId="eventName" className="col-md-2" style={{paddingLeft: "0px", paddingRight: "0px"}}>
+                    <FormGroup controlId="eventName" className="col-md-4" style={{paddingLeft: "20px"}}>
                       <ControlLabel>Time(From - To)</ControlLabel>
                       {editable 
                         ?
-                          <div style={{display: "flex", marginLeft: "0px 10px"}}>
-                            <TimePicker className="session-timepicker" defaultValue={moment()} showSecond={false} minuteStep={15} />
-                            <TimePicker className="session-timepicker" defaultValue={moment()} showSecond={false} minuteStep={15} />
+                          <div style={{display: "flex", margin: "0px 10px"}}>
+                            {/* <TimePicker className="session-timepicker" showSecond={false} minuteStep={15} onChange={this.handleFromTimeChange}/> */}
+                            {/* <TimePicker className="session-timepicker" showSecond={false} minuteStep={15} onChange={this.handleToTimeChange}/> */}
+                            <TimePicker className="session-timepicker" start="10:00" end="21:00" step={15} onChange={this.handleFromTimeChange} />
+                            <TimePicker className="session-timepicker" start="10:00" end="21:00" step={15} onChange={this.handleToTimeChange} />
                           </div>
                         : <h5 style={{padding: "8px"}}>{"From - To"}</h5>
                       }
@@ -405,8 +497,8 @@ class SessionInformation extends Component {
                           <Multiselect
                             options={allSponsors}
                             selectedValues={selectedSponsors}
-                            // onSelect={this.onSelect}
-                            // onRemove={this.onRemove}
+                            onSelect={this.handleSponsorSelect}
+                            onRemove={this.handleSponsorRemove}
                             closeIcon="cancel"
                             displayValue="name"
                           />
