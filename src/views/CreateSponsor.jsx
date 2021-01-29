@@ -11,7 +11,6 @@ import {
 import { Card } from "components/Card/Card.jsx";
 import { createSponsor } from "../requests/sponsors.jsx"
 import Button from "components/CustomButton/CustomButton.jsx";
-import { Multiselect } from 'multiselect-react-dropdown';
 import mockup_data from "../mockup_data.json"
 
 const session_list = mockup_data.sessions;

@@ -12,14 +12,6 @@ import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { getSponsorById, updateSponsor } from "../requests/sponsors.jsx"
 
-let sponsor_param = {
-  sponsorName: "",
-  companyWebsite: "",
-  marketingImage: "",
-  promotionMessage: "",
-  promotionUrl: "",
-}
-
 class Sponsors extends Component {
 
   constructor(props) {
