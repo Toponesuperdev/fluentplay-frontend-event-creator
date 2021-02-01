@@ -852,13 +852,13 @@
 }
 
 .session-timepicker {
-  width: 100px !important;
+  width: 130px !important;
   padding: 0px 5px !important;
   margin: 0px 5px !important;
 }
 
 .session-timepicker input {
-  height: 34px;
+  height: 40px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);

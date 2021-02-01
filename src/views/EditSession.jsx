@@ -14,10 +14,8 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import 'rc-time-picker/assets/index.css';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import { getSessionById } from "../requests/sessions.jsx"
-// import { updateSession } from "../requests/sessions.jsx"
-import TimePicker from 'react-bootstrap-time-picker';
-
+import { getSessionById, updateSession } from "../requests/sessions.jsx"
+import TimeInputPolyfill from 'react-time-input-polyfill'
 
 const languages = [
   {name: "English"},
@@ -34,10 +32,10 @@ class SessionInformation extends Component {
     super(props);
 
     this.state = {
-      selectedDay: undefined,
       editable: false,
       edited: false,
       saving: false,
+      loading: true,
       sessionId: "",
       sessionName: "",
       sessionTitle: "",
@@ -51,6 +49,7 @@ class SessionInformation extends Component {
       events: [],
       sponsors: [],
       mySponsors: [],
+      sessionDate: {},
       temp_info: {
         sessionId: "",
         sessionName: "",
@@ -64,6 +63,7 @@ class SessionInformation extends Component {
         translationPrice: 0,
         yourLanguage: "",
         sponsors: [],
+        sessionDate: {},
       }
     }
 
@@ -73,7 +73,7 @@ class SessionInformation extends Component {
   getSessionInfo() {
     let { temp_info } = this.state;
     temp_info.sessionId = window.location.pathname.split('/')[2];
-    this.setState({sessionId: window.location.pathname.split('/')[2], temp_info});
+    this.setState({sessionId: window.location.pathname.split('/')[2], temp_info, loading: true});
     getSessionById(window.location.pathname.split('/')[2]).then((response) => {
       if (response.status) {
         const { 
@@ -81,11 +81,13 @@ class SessionInformation extends Component {
           sessionTitle,
           companyName,
           event,
-          files,startTime,
+          files,
+          startTime,
           translationLanguages,
           translationPrice,
           yourLanguage,
-          sponsors
+          sponsors,
+          sessionDate,
         } = response.data.sessionInfo;
         const { events, mySponsors } = response.data;
         temp_info.sessionName = sessionName;
@@ -98,12 +100,14 @@ class SessionInformation extends Component {
         temp_info.translationPrice = translationPrice;
         temp_info.yourLanguage = yourLanguage;
         temp_info.sponsors = sponsors;
+        temp_info.sessionDate = sessionDate;
 
         this.setState({
           sessionName,
           sessionTitle,
           companyName,
           event,
+          // files: [...files], // concept of deep copy
           files,
           startTime,
           translationLanguages,
@@ -112,7 +116,9 @@ class SessionInformation extends Component {
           sponsors,
           temp_info,
           events,
-          mySponsors
+          mySponsors,
+          sessionDate,
+          loading: false,
         })
       }
     });
@@ -217,19 +223,30 @@ class SessionInformation extends Component {
   
   handleDayChange(day) {
     let { temp_info } = this.state;
-    temp_info.time.from = moment(day).format();
-    
+    const date = moment(day).format("YYYY-MM-DD");
+    const fromHours = moment(temp_info.sessionDate.from).hours();
+    const fromMinutes = moment(temp_info.sessionDate.from).minutes();
+    const ToHours = moment(temp_info.sessionDate.to).hours();
+    const ToMinutes = moment(temp_info.sessionDate.to).minutes();
+
+    temp_info.sessionDate.from = moment(date).set({hour: fromHours, minute: fromMinutes}).format();
+    temp_info.sessionDate.to = moment(date).set({hour: ToHours, minute: ToMinutes}).format();
+
     this.setState({temp_info, edited: true});
   }
 
   handleFromTimeChange = (time) => {
-    // let time = document.getElementsByClassName("rc-time-picker-input")[0].value;
-    console.log(time, "++++++");
+    let { temp_info } = this.state;
+    temp_info.sessionDate.from = moment(temp_info.sessionDate.from).set({ hour: parseInt(time.value.split(':')[0]), minute: parseInt(time.value.split(':')[1]) }).format();
+    
+    this.setState({temp_info, edited: true});
   }
   
   handleToTimeChange = (time) => {
-    // console.log(eve.format("HH:MM"), "++++++");
-    console.log(time, "++++++");
+    let { temp_info } = this.state;
+    temp_info.sessionDate.to = moment(temp_info.sessionDate.to).set({ hour: parseInt(time.value.split(':')[0]), minute: parseInt(time.value.split(':')[1]) }).format();
+    
+    this.setState({temp_info, edited: true});
   }
 
   handleTranslationPriceChange = (eve) => {
@@ -239,16 +256,21 @@ class SessionInformation extends Component {
     this.setState({temp_info, edited: true});
   }
 
+  handleFileRemove = (eve, idx) => {
+    let { temp_info } = this.state;
+    let files = [];
+
+    temp_info.files.forEach(function(file) {
+      files.push(file);
+    });
+
+    files.splice(idx, 1);
+    temp_info.files = files;
+
+    this.setState({temp_info, edited: true});
+  }
+
   toggleEdit() {
-    this.setState({editable: !this.state.editable});
-  }
-
-  handleSave() {
-    const { temp_info } = this.state;
-    console.log(temp_info, "+++++++++++++++++++");
-  }
-
-  render() {
     const { 
       sessionName,
       sessionTitle,
@@ -259,11 +281,69 @@ class SessionInformation extends Component {
       translationLanguages,
       translationPrice,
       yourLanguage,
+      sponsors,
+      sessionDate, 
+    } = this.state;
+    let {temp_info} = this.state
+    temp_info.sessionName = sessionName
+    temp_info.sessionTitle = sessionTitle
+    temp_info.companyName = companyName
+    temp_info.event = event
+    temp_info.files = files
+    temp_info.startTime = startTime
+    temp_info.translationLanguages = translationLanguages
+    temp_info.translationPrice = translationPrice
+    temp_info.yourLanguage = yourLanguage
+    temp_info.sponsors = sponsors
+    temp_info.sessionDate = sessionDate
+
+    this.setState({editable: !this.state.editable, temp_info});
+  }
+
+  handleSave() {
+    const { temp_info } = this.state;
+    console.log(temp_info, "+++++++++++++++++++");
+    this.setState({saving: true});
+    updateSession(temp_info).then((response) => {
+      console.log(response.data);
+      this.setState({
+        editable: !this.state.editable,
+        sessionId: temp_info.sessionId,
+        sessionName: temp_info.sessionName,
+        sessionTitle: temp_info.sessionTitle,
+        companyName: temp_info.companyName,
+        event: temp_info.event,
+        files: temp_info.files,
+        translationLanguages: temp_info.translationLanguages,
+        translationPrice: temp_info.translationPrice,
+        yourLanguage: temp_info.yourLanguage,
+        sponsors: temp_info.sponsors,
+        sessionDate: temp_info.sessionDate,
+      });
+    });
+  }
+
+  render() {
+    const { 
+      sessionName,
+      sessionTitle,
+      companyName,
+      event,
+      files,
+      translationLanguages,
+      translationPrice,
+      yourLanguage,
       editable,
       events,
       sponsors,
       mySponsors,
+      sessionDate,
+      saving,
+      edited,
+      loading, 
     } = this.state;
+
+    let temp_files = this.state.temp_info.files
     
     let language_list = [];
     translationLanguages.forEach(function(language) {
@@ -273,7 +353,7 @@ class SessionInformation extends Component {
     let allSponsors = [];
     mySponsors.forEach(function(sponsor) {
       allSponsors.push({
-        id: sponsor.sponsorId,
+        // id: sponsor.sponsorId,
         name: sponsor.sponsorName
       });
     });
@@ -301,8 +381,8 @@ class SessionInformation extends Component {
                             <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.toggleEdit()}>
                               Cancel
                             </Button>
-                            <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
-                              Save
+                            <Button disabled={!edited || saving} bsStyle="info" pullRight fill type="submit" onClick={() => this.handleSave()} style={{marginRight: "15px"}}>
+                              {saving ? "Saving......" : "Save"}
                             </Button>
                           </>
                         :
@@ -384,6 +464,7 @@ class SessionInformation extends Component {
                       {editable 
                         ? 
                           <Multiselect
+                            id="translation_select"
                             options={languages}
                             selectedValues={language_list}
                             onSelect={this.handleTransLanguageSelect}
@@ -422,12 +503,14 @@ class SessionInformation extends Component {
                       {editable
                         ?
                           <DayPickerInput
-                            format="MM/dd/yyyy"
+                            id="sessionDate"
+                            format="YYYY-MM-DD"
                             onDayChange={this.handleDayChange}
                             className="form-control"
-                            placeholder={moment(startTime).format("MM/DD/YYYY")}
+                            // placeholder={moment(startTime).format("MM/DD/YYYY")}
+                            // defaultValue={moment(sessionDate.from).format("MM/DD/YYYY")}
                           />
-                        : <h5 style={{padding: "8px"}}>{moment(startTime).format("MM/DD/YYYY")}</h5>
+                        : <h5 style={{padding: "8px"}}>{!loading && moment(sessionDate.from).format("YYYY-MM-DD")}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="eventName" className="col-md-4" style={{paddingLeft: "20px"}}>
@@ -435,12 +518,10 @@ class SessionInformation extends Component {
                       {editable 
                         ?
                           <div style={{display: "flex", margin: "0px 10px"}}>
-                            {/* <TimePicker className="session-timepicker" showSecond={false} minuteStep={15} onChange={this.handleFromTimeChange}/> */}
-                            {/* <TimePicker className="session-timepicker" showSecond={false} minuteStep={15} onChange={this.handleToTimeChange}/> */}
-                            <TimePicker className="session-timepicker" start="10:00" end="21:00" step={15} onChange={this.handleFromTimeChange} />
-                            <TimePicker className="session-timepicker" start="10:00" end="21:00" step={15} onChange={this.handleToTimeChange} />
+                            <TimeInputPolyfill id="timeFrom" className="session-timepicker form-control" step={900} onChange={this.handleFromTimeChange}/>
+                            <TimeInputPolyfill id="timeTo" className="session-timepicker form-control" step={900} onChange={this.handleToTimeChange}/>
                           </div>
-                        : <h5 style={{padding: "8px"}}>{"From - To"}</h5>
+                        : <h5 style={{padding: "8px"}}>{!loading && `${moment(sessionDate.from).format("HH:mm")} - ${moment(sessionDate.to).format("HH:mm")}`}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="translationPrice" className="col-md-4" style={{paddingRight: "0px"}}>
@@ -455,7 +536,7 @@ class SessionInformation extends Component {
                             defaultValue={translationPrice}
                             onChange={this.handleTranslationPriceChange}
                           />
-                        : <h5 style={{padding: "8px"}}>{translationPrice}$</h5>
+                        : <h5 style={{padding: "8px"}}>{!loading && `${translationPrice}$`}</h5>
                       }
                     </FormGroup>
                     <FormGroup controlId="relatedFile" className="col-md-12" style={{paddingRight: "0px", paddingLeft: "0px"}}>
@@ -468,11 +549,11 @@ class SessionInformation extends Component {
                               <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
                             </div>
                             <div style={{display: "flex", marginTop: "10px"}}>
-                              {files.map((file, idx) => {
+                              {temp_files.map((file, idx) => {
                                 return (
                                   <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
                                     <label style={{color: "white",fontSize: "14px", textTransform: "none", margin: "0px"}}>{file.file_name}</label>
-                                    <label style={{color: "white", fontSize: "17px", fontWeight: "bold", margin: "0px", padding: "0px 3px"}}>×</label>
+                                    <label value={idx} style={{color: "white", fontSize: "17px", fontWeight: "bold", margin: "0px", padding: "0px 3px"}} onClick={(evt)=>this.handleFileRemove(evt,idx)}>×</label>
                                   </div>
                                 )
                               })}
@@ -483,7 +564,7 @@ class SessionInformation extends Component {
                             {files.map((file, idx) => {
                               return (
                                 <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
-                                  <a href={"https://brainshares.s3-us-west-2.amazonaws.com/full.jpg"} style={{color: "white"}} download={file.file_name}>{file.file_name}</a>
+                                  <a href={file.path} style={{color: "white"}} download={file.file_name}>{file.file_name}</a>
                                 </div>
                               )
                             })}
@@ -495,6 +576,7 @@ class SessionInformation extends Component {
                       {editable 
                         ? 
                           <Multiselect
+                            id="sponsor_select"
                             options={allSponsors}
                             selectedValues={selectedSponsors}
                             onSelect={this.handleSponsorSelect}

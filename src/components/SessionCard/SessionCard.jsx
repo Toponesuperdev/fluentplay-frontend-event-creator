@@ -30,9 +30,9 @@ export class SessionCard extends Component {
             <h5 className="col-md-12" style={{height: "15px", paddingLeft: "0px", paddingRight: "0px"}}>Language: {data.yourLanguage && <label style={{background: "#04B5FA",color: "white", padding: "5px",borderRadius: "8px"}}>{data.yourLanguage}</label>}</h5>
             <h5 className="col-md-12" style={{height: "15px", paddingLeft: "0px", paddingRight: "0px"}}>
               Translation Language: 
-              {data.translationLanguages.map((language) =>{
+              {data.translationLanguages.map((language, idx) =>{
                 return (
-                  <label style={{background: "#04B5FA",color: "white", padding: "5px", borderRadius: "8px", margin: "2px 5px"}}>{language}</label>
+                  <label key={idx} style={{background: "#04B5FA",color: "white", padding: "5px", borderRadius: "8px", margin: "2px 5px"}}>{language}</label>
                 )
               })}
             </h5>

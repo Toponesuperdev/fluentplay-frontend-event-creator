@@ -214,7 +214,7 @@ class CreateEvent extends Component {
                         initialSettings={{ startDate: new Date() }}
                         onCallback={(start, end, label) => this.onDatesChange(start, end, label)}
                       >
-                        <input type="text" value={""} className="form-control"/>
+                        <input type="text" className="form-control"/>
                       </DateRangePicker>
                     </FormGroup>
                     <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.handleCreate()}> 

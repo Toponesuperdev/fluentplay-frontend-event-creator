@@ -68,7 +68,6 @@ class CreateSponsor extends Component {
       promotionMessage: promotionMessage,
       promotionUrl: promotionUrl
     }).then((response) => {
-      console.log(response);
       window.location.href = `/sponsors/${response.data.sponsorId}`
     });
   }
