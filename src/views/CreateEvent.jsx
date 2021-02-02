@@ -3,6 +3,7 @@ import {
   Grid,
   Row,
   Col,
+  Form,
   FormGroup,
   ControlLabel,
   FormControl
@@ -11,6 +12,7 @@ import {
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { createEvent } from "../requests/events.jsx"
+import { uploadFiles } from "../requests/files.jsx"
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
@@ -26,10 +28,10 @@ class CreateEvent extends Component {
       endTime: "",
       eventName: "",
       eventPrice: 0,
-      imagePath: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
       startTime: "",
       time_zone: "(GMT -12:00) Eniwetok, Kwajalein",
-      feeType: "Absorb all fees"
+      feeType: "Absorb all fees",
+      image: null
     }
   }
 
@@ -40,19 +42,24 @@ class CreateEvent extends Component {
     })
   }
 
-  handleCreate() {
-    const {category, description, endTime, eventName, eventPrice, imagePath , startTime, time_zone, feeType} = this.state;
-    createEvent({
+  handleCreate = () => {
+    const {category, description, endTime, eventName, eventPrice, startTime, time_zone, feeType} = this.state;
+    const data = new FormData();
+    const eventData = JSON.stringify({
       category: category,
       description: description,
       endTime: endTime,
       eventName: eventName,
       eventPrice: eventPrice,
-      imagePath: imagePath,
       startTime: startTime,
       time_zone: time_zone,
-      feeType: feeType
-    }).then((response) => {
+      feeType: feeType,
+    });
+
+    data.append("file", this.state.image);
+    data.append("eventInfo", eventData);
+    console.log(data, this.state.image,"+++++++");
+    createEvent(data).then((response) => {
       console.log(response);
       window.location.href = `/events/${response.data.eventId}`
     });
@@ -82,7 +89,14 @@ class CreateEvent extends Component {
     this.setState({time_zone: eve.target.value})
   }
 
+  handleFileChange(eve) {
+    console.log(eve.target.files[0], "+++++");
+
+    this.setState({image: eve.target.files[0]});
+  }
+
   render() {
+    const { image } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -161,10 +175,12 @@ class CreateEvent extends Component {
                     </Row>
                     <FormGroup controlId="image">
                       <ControlLabel>Image</ControlLabel>
-                      <div className="custom-file">
-                        <input id="inputGroupFile01" type="file" className="custom-file-input from-control" />
-                        <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
+                      <div className="custom-file-upload">
+                        {/* <input id="inputGroupFile01" type="file" className="custom-file-input from-control" onChange={(eve) => this.handleFileChange(eve)}/> */}
+                        <input type="file" onChange={(eve) => this.handleFileChange(eve)}/>
+                        <i className="fa fa-cloud-upload" /> Attach
                       </div>
+                      {image && <img src={URL.createObjectURL(image)} alt="1234"/>}
                     </FormGroup>
                     <FormGroup controlId="timezoneList" className="col-md-6" style={{paddingLeft: "0px"}}>
                       <ControlLabel>Timezone</ControlLabel>
@@ -217,7 +233,7 @@ class CreateEvent extends Component {
                         <input type="text" className="form-control"/>
                       </DateRangePicker>
                     </FormGroup>
-                    <Button bsStyle="info" pullRight fill type="submit" onClick={() => this.handleCreate()}> 
+                    <Button bsStyle="info" pullRight fill type="submit" onClick={ () => this.handleCreate() }> 
                       Create
                     </Button>
                     <div className="clearfix" />
