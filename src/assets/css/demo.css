@@ -885,3 +885,34 @@
   border-radius: 2px;
   color: white;
 }
+
+.event-image {
+  padding: 8px;
+  max-height: 300px;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: black !important;
+}
+
+input[type="file"] {
+  display: none !important;
+}
+
+input[type="file" i] {
+  appearance: initial;
+  background-color: initial;
+  cursor: default;
+  align-items: baseline;
+  color: inherit;
+  text-overflow: ellipsis;
+  white-space: pre;
+  text-align: start !important;
+  padding: initial;
+  border: initial;
+  overflow: hidden !important;
+}

@@ -34,6 +34,7 @@ class EventInformation extends Component {
       endTime: "",
       eventPrice: "",
       feeType: "",
+      image: null,
       temp_info: {
         eventId: "",
         eventName: "",
@@ -115,13 +116,6 @@ class EventInformation extends Component {
     this.setState({temp_info, edited: true});
   }
 
-  handleImageChange = (eve) => {
-    let { temp_info } = this.state;
-    temp_info.imagePath = eve.target.value;
-
-    this.setState({temp_info, edited: true});
-  }
-
   handletimezoneChange = (eve) => {
     let { temp_info } = this.state;
     temp_info.time_zone = eve.target.value;
@@ -147,31 +141,38 @@ class EventInformation extends Component {
     this.setState({editable: !this.state.editable, saving: false, edited: false});
   }
 
+  handleFileChange(eve) {
+    this.setState({image: eve.target.files[0], edited: true});
+  }
+
   handleSave() {
     const { temp_info } = this.state;
 
+    const data = new FormData();
+    data.append("file", this.state.image);
+    data.append("eventInfo", JSON.stringify(temp_info));
+
     this.setState({saving: true});
-    updateEvent(temp_info).then((response) => {
-      console.log(response.data);
+    updateEvent(data).then((response) => {
       this.setState({
         editable: !this.state.editable,
         saving: false,
-        eventName: temp_info.eventName,
-        description: temp_info.description,
-        category: temp_info.category,
-        imagePath: temp_info.imagePath,
-        timezone: temp_info.time_zone,
-        startTime: temp_info.startTime,
-        endTime: temp_info.endTime,
-        eventPrice: temp_info.eventPrice,
-        feeType: temp_info.feeType
+        eventName: response.data.eventName,
+        description: response.data.description,
+        category: response.data.category,
+        imagePath: response.data.imagePath,
+        timezone: response.data.time_zone,
+        startTime: response.data.startTime,
+        endTime: response.data.endTime,
+        eventPrice: response.data.eventPrice,
+        feeType: response.data.feeType
       });
       this.props.handleClick("tr", "success", `The event ${temp_info.eventName} is updated successfully.`);
     });
   }
 
   render() {
-    const { eventName, description, category, imagePath, timezone, startTime, endTime, eventPrice, feeType, editable, edited, saving } = this.state;
+    const { eventName, description, category, imagePath, timezone, startTime, endTime, eventPrice, feeType, image, editable, edited, saving } = this.state;
 
     return (
       <div className="content">
@@ -286,11 +287,16 @@ class EventInformation extends Component {
                       <ControlLabel>Image</ControlLabel>
                       {editable 
                         ? 
-                          <div className="custom-file">
-                            <input id="inputGroupFile01" type="file" className="custom-file-input from-control" onChange={this.handleImageChange}/>
-                            <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
-                          </div>
-                        : <h5 style={{padding: "8px"}}>{imagePath}</h5>
+                          <>
+                            <div>
+                              <label className="custom-file-upload">
+                                <input type="file" onChange={(eve) => this.handleFileChange(eve)}/>
+                                <i className="fa fa-cloud-upload" /> Browse
+                              </label>
+                            </div>
+                            {image ? <img src={URL.createObjectURL(image)} alt={eventName} className="event-image" /> : <img src={imagePath} alt={eventName} className="event-image" />}
+                          </>
+                        : <div> <img src={imagePath} className="event-image" alt={eventName} /> </div>
                       }
                     </FormGroup>
                     <FormGroup controlId="timezoneList" className="col-md-6" style={{paddingLeft: "0px"}}>

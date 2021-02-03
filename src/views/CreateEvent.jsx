@@ -3,7 +3,6 @@ import {
   Grid,
   Row,
   Col,
-  Form,
   FormGroup,
   ControlLabel,
   FormControl
@@ -12,7 +11,6 @@ import {
 import { Card } from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { createEvent } from "../requests/events.jsx"
-import { uploadFiles } from "../requests/files.jsx"
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
@@ -90,8 +88,6 @@ class CreateEvent extends Component {
   }
 
   handleFileChange(eve) {
-    console.log(eve.target.files[0], "+++++");
-
     this.setState({image: eve.target.files[0]});
   }
 
@@ -175,12 +171,13 @@ class CreateEvent extends Component {
                     </Row>
                     <FormGroup controlId="image">
                       <ControlLabel>Image</ControlLabel>
-                      <div className="custom-file-upload">
-                        {/* <input id="inputGroupFile01" type="file" className="custom-file-input from-control" onChange={(eve) => this.handleFileChange(eve)}/> */}
-                        <input type="file" onChange={(eve) => this.handleFileChange(eve)}/>
-                        <i className="fa fa-cloud-upload" /> Attach
+                      <div>
+                        <label className="custom-file-upload">
+                          <input type="file" onChange={(eve) => this.handleFileChange(eve)}/>
+                          <i className="fa fa-cloud-upload" /> Browse
+                        </label>
                       </div>
-                      {image && <img src={URL.createObjectURL(image)} alt="1234"/>}
+                      {image && <img className="event-image" src={URL.createObjectURL(image)} alt="event avatar"/>}
                     </FormGroup>
                     <FormGroup controlId="timezoneList" className="col-md-6" style={{paddingLeft: "0px"}}>
                       <ControlLabel>Timezone</ControlLabel>
