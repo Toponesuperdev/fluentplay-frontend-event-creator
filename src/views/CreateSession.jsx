@@ -39,20 +39,7 @@ class CreateSession extends Component {
       sessionTitle: "",
       companyName: "",
       event: {},
-      files: [
-        {
-          file_name: "Architecture.doc",
-          path: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-        },
-        {
-          file_name: "Industry.doc",
-          path: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-        },
-        {
-          file_name: "Agriculture.doc",
-          path: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-        }
-      ],
+      files: [],
       startTime: "",
       translationLanguages: [],
       translationPrice: 0,
@@ -112,7 +99,7 @@ class CreateSession extends Component {
     selectedList.forEach(function(selectedSponsor) {
       mySponsors.forEach(function(sponsor) {
         if (selectedSponsor.name === sponsor.name)
-          selectedSponsors.push(sponsor);
+          selectedSponsors.push({id: sponsor.id, sponsorName: sponsor.name});
       });
     });
 
@@ -126,7 +113,7 @@ class CreateSession extends Component {
     selectedList.forEach(function(selectedSponsor) {
       mySponsors.forEach(function(sponsor) {
         if (selectedSponsor.name === sponsor.name)
-          selectedSponsors.push(sponsor);
+        selectedSponsors.push({id: sponsor.id, sponsorName: sponsor.name});
       });
     });
 
@@ -192,17 +179,12 @@ class CreateSession extends Component {
   }
 
   handleFileRemove = (eve, idx) => {
-    let { temp_info } = this.state;
-    let files = [];
-
-    temp_info.files.forEach(function(file) {
-      files.push(file);
-    });
+    let { files } = this.state;
 
     files.splice(idx, 1);
-    temp_info.files = files;
+    console.log(files, "++++");
 
-    this.setState({temp_info, edited: true});
+    this.setState({files, edited: true});
   }
 
   handleCreate = () => {
@@ -219,40 +201,43 @@ class CreateSession extends Component {
       sponsors,
       sessionDate
     } = this.state;
-
-    console.log({
+    const data = new FormData();
+    const sessionData = JSON.stringify({
       sessionName: sessionName,
       sessionTitle: sessionTitle,
       companyName: companyName,
       event: event,
-      files: files,
       startTime: startTime,
       translationLanguages: translationLanguages,
       translationPrice: translationPrice,
       yourLanguage: yourLanguage,
       sponsors: sponsors,
       sessionDate: sessionDate
-    })
-
-    createSession({
-      sessionName: sessionName,
-      sessionTitle: sessionTitle,
-      companyName: companyName,
-      event: event,
-      files: files,
-      startTime: startTime,
-      translationLanguages: translationLanguages,
-      translationPrice: translationPrice,
-      yourLanguage: yourLanguage,
-      sponsors: sponsors,
-      sessionDate: sessionDate
-    }).then((response) => {
-      window.location.href = `/sessions/${response.data.sessionId}`
+    });
+    
+    files.forEach(function(file) {
+      data.append("files", file);
+    });
+    data.append("sessionInfo", sessionData);
+    
+    createSession(data).then((response) => {
+      this.props.history.push(`/sessions/${response.data.sessionId}`);
     });
   }
 
+  handleFileChange(eve) {
+    const { files } = eve.target;
+    let temp = [...this.state.files];
+
+    for( const key in Object.keys(files)) {
+      temp.push(files[key]);
+    }
+
+    this.setState({files: temp});
+  }
+
   render() {
-    const { myEvents, mySponsors } = this.state;
+    const { myEvents, mySponsors, files } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -357,9 +342,21 @@ class CreateSession extends Component {
                     </FormGroup>
                     <FormGroup controlId="relatedFile" className="col-md-12" style={{paddingRight: "0px", paddingLeft: "0px"}}>
                       <ControlLabel>Files</ControlLabel>
-                      <div className="custom-file">
-                        <input id="inputGroupFile01" type="file" multiple className="custom-file-input from-control" />
-                        <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
+                      <div>
+                        <label className="custom-file-upload">
+                          <input type="file" multiple onChange={(eve) => this.handleFileChange(eve)}/>
+                          <i className="fa fa-cloud-upload" /> Browse
+                        </label>
+                      </div>
+                      <div style={{display: "flex", marginTop: "10px"}}>
+                        {files.map((file, idx) => {
+                          return (
+                            <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
+                              <label style={{color: "white",fontSize: "14px", textTransform: "none", margin: "0px"}}>{file.name}</label>
+                              <label value={idx} style={{color: "white", fontSize: "17px", fontWeight: "bold", margin: "0px", padding: "0px 3px"}} onClick={(evt)=>this.handleFileRemove(evt, idx)}>×</label>
+                            </div>
+                          )
+                        })}
                       </div>
                     </FormGroup>
                     <FormGroup controlId="sponsors">
