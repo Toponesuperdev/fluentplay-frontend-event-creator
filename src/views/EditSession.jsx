@@ -16,6 +16,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { getSessionById, updateSession } from "../requests/sessions.jsx"
 import TimeInputPolyfill from 'react-time-input-polyfill'
+import { Link } from "react-router-dom"
 
 const languages = [
   {name: "English"},
@@ -361,6 +362,7 @@ class SessionInformation extends Component {
     let selectedSponsors = [];
     sponsors.forEach(function(sponsor) {
       selectedSponsors.push({
+        id: sponsor.id,
         name: sponsor.sponsorName
       });
     });
@@ -589,7 +591,9 @@ class SessionInformation extends Component {
                             {selectedSponsors.map((sponsor, idx) => {
                               return (
                                 <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
-                                  <label style={{color: "white", margin: "0px"}}>{sponsor.name}</label>
+                                  <Link to={`/sponsors/${sponsor.id}`}>
+                                    <label style={{color: "white", margin: "0px"}}>{sponsor.name}</label>
+                                  </Link>
                                 </div>
                               )
                             })}
