@@ -154,6 +154,17 @@ class EventInformation extends Component {
 
     this.setState({saving: true});
     updateEvent(data).then((response) => {
+      let { temp_info } = this.state;
+      temp_info.eventName = response.data.eventName;
+      temp_info.description = response.data.description;
+      temp_info.category = response.data.category;
+      temp_info.imagePath = response.data.imagePath;
+      temp_info.time_zone = response.data.time_zone;
+      temp_info.startTime = response.data.startTime;
+      temp_info.endTime = response.data.endTime;
+      temp_info.eventPrice = response.data.eventPrice;
+      temp_info.feeType = response.data.feeType;
+      
       this.setState({
         editable: !this.state.editable,
         saving: false,
@@ -165,7 +176,8 @@ class EventInformation extends Component {
         startTime: response.data.startTime,
         endTime: response.data.endTime,
         eventPrice: response.data.eventPrice,
-        feeType: response.data.feeType
+        feeType: response.data.feeType,
+        temp_info
       });
       this.props.handleClick("tr", "success", `The event ${temp_info.eventName} is updated successfully.`);
     });
