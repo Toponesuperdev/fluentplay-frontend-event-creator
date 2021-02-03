@@ -27,6 +27,7 @@ class Sponsors extends Component {
       marketingImage: "",
       promotionMessage: "",
       promotionUrl: "",
+      image: null,
       temp_info: {
         sponsorId: "",
         sponsorName: "",
@@ -105,26 +106,41 @@ class Sponsors extends Component {
     this.setState({editable: !this.state.editable, saving: false, edited: false});
   }
 
+  handleFileChange(eve) {
+    this.setState({image: eve.target.files[0], edited: true});
+  }
+
   handleSave() {
-    const { temp_info } = this.state;
+    let { temp_info } = this.state;
+
+    let data = new FormData();
+    data.append("file", this.state.image);
+    data.append("sponsorInfo", JSON.stringify(temp_info));
 
     this.setState({saving: true});
-    updateSponsor(temp_info).then((response) => {
+    updateSponsor(data).then((response) => {
+      temp_info.sponsorName = response.data.sponsorName;
+      temp_info.companyWebsite = response.data.companyWebsite;
+      temp_info.marketingImage = response.data.marketingImage;
+      temp_info.promotionMessage = response.data.promotionMessage;
+      temp_info.promotionUrl = response.data.promotionUrl;
+
       this.setState({
         editable: !this.state.editable,
         saving: false,
-        sponsorName: temp_info.sponsorName,
-        companyWebsite: temp_info.companyWebsite,
-        marketingImage: temp_info.marketingImage,
-        promotionMessage: temp_info.promotionMessage,
-        promotionUrl: temp_info.promotionUrl,
+        sponsorName: response.data.sponsorName,
+        companyWebsite: response.data.companyWebsite,
+        marketingImage: response.data.marketingImage,
+        promotionMessage: response.data.promotionMessage,
+        promotionUrl: response.data.promotionUrl,
+        temp_info
       });
-      this.props.handleClick("tr", "success", `The sponsor ${temp_info.sponsorName} is updated successfully.`);
+      this.props.handleClick("tr", "success", `The sponsor ${response.data.sponsorName} is updated successfully.`);
     });
   }
 
   render() {
-    const { editable, sponsorName, companyWebsite, marketingImage, promotionMessage, promotionUrl, edited, saving } = this.state;
+    const { editable, sponsorName, companyWebsite, marketingImage, promotionMessage, promotionUrl, edited, saving, image } = this.state;
 
     return (
       <div className="content">
@@ -184,11 +200,16 @@ class Sponsors extends Component {
                       <ControlLabel>Image (Marketing Image)</ControlLabel>
                       {editable 
                         ? 
-                          <div className="custom-file">
-                            <input id="inputGroupFile01" type="file" className="custom-file-input from-control" onChange={this.handleMarketingImageChange}/>
-                            <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
-                          </div>
-                        : <h5 style={{padding: "8px"}}>{marketingImage}</h5>
+                          <>
+                            <div>
+                              <label className="custom-file-upload">
+                                <input type="file" onChange={(eve) => this.handleFileChange(eve)}/>
+                                <i className="fa fa-cloud-upload" /> Browse
+                              </label>
+                            </div>
+                            {image ? <img src={URL.createObjectURL(image)} alt={sponsorName} className="event-image" /> : <img src={marketingImage} alt={sponsorName} className="event-image" />}
+                          </>
+                        : <div> <img src={marketingImage} className="event-image" alt={sponsorName} /> </div>
                       }
                     </FormGroup>
                     <FormGroup controlId="promotionMesage">

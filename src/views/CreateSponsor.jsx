@@ -28,9 +28,9 @@ class CreateSponsor extends Component {
     this.state = {
       sponsorName: "",
       companyWebsite: "",
-      marketingImage: "https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400",
       promotionMessage: "",
-      promotionUrl: ""
+      promotionUrl: "",
+      image: null
     }
   }
 
@@ -40,10 +40,6 @@ class CreateSponsor extends Component {
 
   handleCompanyWebsiteChange(eve) {
     this.setState({companyWebsite: eve.target.value});
-  }
-
-  handleMarketingImageChange(eve) {
-    this.setState({marketingImage: eve.target.value});
   }
 
   handlePromotionMessageChange(eve) {
@@ -58,21 +54,31 @@ class CreateSponsor extends Component {
     this.setState({editable: !this.state.editable, saving: false, edited: false});
   }
 
+  handleFileChange(eve) {
+    this.setState({image: eve.target.files[0]});
+  }
+
   handleCreate() {
     const { sponsorName, companyWebsite, marketingImage, promotionMessage, promotionUrl } = this.state;
-
-    createSponsor({
+    const data = new FormData();
+    const sponsortData = JSON.stringify({
       sponsorName: sponsorName,
       companyWebsite: companyWebsite,
       marketingImage: marketingImage,
       promotionMessage: promotionMessage,
       promotionUrl: promotionUrl
-    }).then((response) => {
-      window.location.href = `/sponsors/${response.data.sponsorId}`
+    });
+
+    data.append("file", this.state.image);
+    data.append("sponsorInfo", sponsortData);
+
+    createSponsor(data).then((response) => {
+      this.props.history.push(`/sponsors/${response.data.sponsorId}`);
     });
   }
 
   render() {
+    const { image } = this.state;
     return (
       <div className="content">
         <Grid fluid>
@@ -104,10 +110,13 @@ class CreateSponsor extends Component {
                     </FormGroup>
                     <FormGroup controlId="image">
                       <ControlLabel>Image (Marketing Image)</ControlLabel>
-                      <div className="custom-file">
-                        <input id="inputGroupFile01" type="file" className="custom-file-input from-control" />
-                        <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
+                      <div>
+                        <label className="custom-file-upload">
+                          <input type="file" onChange={(eve) => this.handleFileChange(eve)}/>
+                          <i className="fa fa-cloud-upload" /> Browse
+                        </label>
                       </div>
+                      {image && <img className="event-image" src={URL.createObjectURL(image)} alt="Marketing"/>}
                     </FormGroup>
                     <FormGroup controlId="promotionMesage">
                       <ControlLabel>Promotion Message</ControlLabel>

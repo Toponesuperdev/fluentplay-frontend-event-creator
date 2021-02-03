@@ -56,7 +56,7 @@ class CreateEvent extends Component {
 
     data.append("file", this.state.image);
     data.append("eventInfo", eventData);
-    console.log(data, this.state.image,"+++++++");
+
     createEvent(data).then((response) => {
       console.log(response);
       window.location.href = `/events/${response.data.eventId}`

@@ -146,15 +146,14 @@ class EventInformation extends Component {
   }
 
   handleSave() {
-    const { temp_info } = this.state;
+    let { temp_info } = this.state;
 
-    const data = new FormData();
+    let data = new FormData();
     data.append("file", this.state.image);
     data.append("eventInfo", JSON.stringify(temp_info));
 
     this.setState({saving: true});
     updateEvent(data).then((response) => {
-      let { temp_info } = this.state;
       temp_info.eventName = response.data.eventName;
       temp_info.description = response.data.description;
       temp_info.category = response.data.category;
