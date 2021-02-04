@@ -20,7 +20,7 @@ import { NavLink } from "react-router-dom";
 
 import AdminNavbarLinks from "../Navbars/AdminNavbarLinks.jsx";
 
-import logo from "assets/img/reactlogo.png";
+import logo from "assets/img/fluentplay-logo-small.png";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class Sidebar extends Component {
             href="/events"
             className="simple-text logo-normal"
           >
-            Javier Mata
+            FluentPlay
           </a>
         </div>
         <div className="sidebar-wrapper">
