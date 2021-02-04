@@ -38,15 +38,17 @@ class EventInformation extends Component {
               </Button>
             </Link>
           </Row>
+          <Row>
           {eventList.map((event, idx) => {
             return (
-              <Col md={4} key={idx}>
+              <Col md={3} key={idx}>
                 <EventCard
                   data={event}
                 />
               </Col>
             );
           })}
+          </Row>
         </Grid>
       </div>
     );

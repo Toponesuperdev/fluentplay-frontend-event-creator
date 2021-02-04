@@ -7,7 +7,7 @@ export class SponsorCard extends Component {
     const redirectUrls = `/sponsors/${data.sponsorId}`
 
     return (
-      <div className="card card-event">
+      <div className="card custom-card">
         <div className="image">
           <Link to={redirectUrls}>
             <img src={data.marketingImage} alt="..." />

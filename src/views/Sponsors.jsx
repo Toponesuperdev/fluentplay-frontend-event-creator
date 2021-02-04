@@ -43,7 +43,7 @@ class Sponsors extends Component {
           </Row>
           {sponsorList.map((sponsor, idx) => {
             return (
-              <Col md={4} key={idx}>
+              <Col md={3} key={idx}>
                 <SponsorCard
                   data={sponsor}
                 />

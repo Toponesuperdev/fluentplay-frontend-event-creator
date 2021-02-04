@@ -822,8 +822,19 @@
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
-.card-event .image {
+.custom-card {
+  height: 350px;
+}
+
+.custom-card .image {
   height: 160px; 
+}
+
+.description {
+  height: 8ch;
+  overflow: hidden;
+  /* white-space: nowrap; */
+  text-overflow: ellipsis;
 }
 
 .DayPickerInput {
@@ -915,4 +926,8 @@ input[type="file" i] {
   padding: initial;
   border: initial;
   overflow: hidden !important;
+}
+
+.custom-card-content {
+  margin: 5px;
 }

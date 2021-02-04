@@ -42,7 +42,7 @@ class SessionInformation extends Component {
           </Row>
           {sessionList.map((session, idx) => {
             return (
-              <Col md={4} key={idx}>
+              <Col md={3} key={idx}>
                 <SessionCard
                   data={session}
                 />

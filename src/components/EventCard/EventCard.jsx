@@ -8,7 +8,7 @@ export class EventCard extends Component {
     const redirectUrls = `/events/${data.eventId}`
 
     return (
-      <div className="card card-event">
+      <div className="card custom-card">
         <div className="image">
           <Link to={redirectUrls}>
             <img src={data.imagePath} alt="..." />
