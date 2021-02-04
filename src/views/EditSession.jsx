@@ -65,7 +65,8 @@ class SessionInformation extends Component {
         yourLanguage: "",
         sponsors: [],
         sessionDate: {},
-      }
+      },
+      attachments: [],
     }
 
     this.handleDayChange = this.handleDayChange.bind(this);
@@ -271,6 +272,13 @@ class SessionInformation extends Component {
     this.setState({temp_info, edited: true});
   }
 
+  handleAttachmentsRemove = (eve, idx) => {
+    let { attachments } = this.state;
+
+    attachments.splice(idx, 1);
+    this.setState({attachments, edited: true});
+  }
+
   toggleEdit() {
     const { 
       sessionName,
@@ -302,26 +310,43 @@ class SessionInformation extends Component {
   }
 
   handleSave() {
-    const { temp_info } = this.state;
-    console.log(temp_info, "+++++++++++++++++++");
+    const { temp_info, attachments } = this.state;
+    const data = new FormData();
+    const sessionData = JSON.stringify(temp_info);
+    
+    attachments.forEach(function(file) {
+      data.append("files", file);
+    });
+    data.append("sessionInfo", sessionData);
+    
     this.setState({saving: true});
-    updateSession(temp_info).then((response) => {
-      console.log(response.data);
+    updateSession(data).then((response) => {
       this.setState({
         editable: !this.state.editable,
-        sessionId: temp_info.sessionId,
-        sessionName: temp_info.sessionName,
-        sessionTitle: temp_info.sessionTitle,
-        companyName: temp_info.companyName,
-        event: temp_info.event,
-        files: temp_info.files,
-        translationLanguages: temp_info.translationLanguages,
-        translationPrice: temp_info.translationPrice,
-        yourLanguage: temp_info.yourLanguage,
-        sponsors: temp_info.sponsors,
-        sessionDate: temp_info.sessionDate,
+        sessionId: response.data.sessionId,
+        sessionName: response.data.sessionName,
+        sessionTitle: response.data.sessionTitle,
+        companyName: response.data.companyName,
+        event: response.data.event,
+        files: response.data.files,
+        translationLanguages: response.data.translationLanguages,
+        translationPrice: response.data.translationPrice,
+        yourLanguage: response.data.yourLanguage,
+        sponsors: response.data.sponsors,
+        sessionDate: response.data.sessionDate,
       });
     });
+  }
+
+  handleFileChange(eve) {
+    const { files } = eve.target;
+    let temp = [...this.state.attachments];
+
+    for( const key in Object.keys(files)) {
+      temp.push(files[key]);
+    }
+
+    this.setState({attachments: temp, edited: true});
   }
 
   render() {
@@ -341,7 +366,8 @@ class SessionInformation extends Component {
       sessionDate,
       saving,
       edited,
-      loading, 
+      loading,
+      attachments,
     } = this.state;
 
     let temp_files = this.state.temp_info.files
@@ -546,9 +572,11 @@ class SessionInformation extends Component {
                       {editable
                         ?
                           <>
-                            <div className="custom-file">
-                              <input id="inputGroupFile01" type="file" multiple className="custom-file-input from-control" />
-                              <label className="custom-file-label" htmlFor="inputGroupFile01">Choose files</label>
+                            <div>
+                              <label className="custom-file-upload">
+                                <input type="file" multiple onChange={(eve) => this.handleFileChange(eve)}/>
+                                <i className="fa fa-cloud-upload" /> Browse
+                              </label>
                             </div>
                             <div style={{display: "flex", marginTop: "10px"}}>
                               {temp_files.map((file, idx) => {
@@ -556,6 +584,14 @@ class SessionInformation extends Component {
                                   <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
                                     <label style={{color: "white",fontSize: "14px", textTransform: "none", margin: "0px"}}>{file.file_name}</label>
                                     <label value={idx} style={{color: "white", fontSize: "17px", fontWeight: "bold", margin: "0px", padding: "0px 3px"}} onClick={(evt)=>this.handleFileRemove(evt,idx)}>×</label>
+                                  </div>
+                                )
+                              })}
+                              {attachments.map((file, idx) => {
+                                return (
+                                  <div key={idx} style={{padding: "2px 8px", margin: "0px 8px", backgroundColor: "#04B5FA", borderRadius: "10px"}}>
+                                    <label style={{color: "white",fontSize: "14px", textTransform: "none", margin: "0px"}}>{file.name}</label>
+                                    <label value={idx} style={{color: "white", fontSize: "17px", fontWeight: "bold", margin: "0px", padding: "0px 3px"}} onClick={(evt)=>this.handleAttachmentsRemove(evt,idx)}>×</label>
                                   </div>
                                 )
                               })}
