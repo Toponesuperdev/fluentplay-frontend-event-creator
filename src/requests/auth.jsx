@@ -1,8 +1,9 @@
 import axios from "axios";
+import {apiUrl} from "../config/api.jsx"
 
-export const getArticles = (page = 1) => {
-  return axios.get(`${apiUrl}/articles?page=${page}`)
+export const login = (param) => {
+  return axios.post(`${apiUrl}/login`, param)
     .then((response) => {
-        return response.data;
+      return response.data;
     });
 };

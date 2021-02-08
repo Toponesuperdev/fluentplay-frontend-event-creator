@@ -16,22 +16,14 @@
 
 */
 import React, { Component } from "react";
-import { NavItem, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { 
+  // NavItem,
+  Nav,
+  // NavDropdown,
+  // MenuItem
+} from "react-bootstrap";
 
-class AdminNavbarLinks extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state= {
-
-    };
-  }
-
-  handleLogout = () => {
-    // this.props.history.push("/");
-  }
-
+class FullPageNavbarLinks extends Component {
   render() {
     // const notification = (
     //   <div>
@@ -43,8 +35,8 @@ class AdminNavbarLinks extends Component {
     // );
     return (
       <div>
-        {/* <Nav>
-          <NavItem eventKey={1} href="#">
+        <Nav>
+          {/* <NavItem eventKey={1} href="#">
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
@@ -63,14 +55,12 @@ class AdminNavbarLinks extends Component {
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
-          </NavItem>
-        </Nav> */}
+          </NavItem> */}
+        </Nav>
         <Nav pullRight>
-          <NavItem eventKey={1}>
-            <Link to="/profile">
-              Account
-            </Link>
-          </NavItem>
+          {/* <NavItem eventKey={1} href="#">
+            Account
+          </NavItem> */}
           {/* <NavDropdown
             eventKey={2}
             title="Dropdown"
@@ -84,13 +74,13 @@ class AdminNavbarLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown> */}
-          <NavItem eventKey={3} onClick={this.handleLogout}>
-            Log out
-          </NavItem>
+          {/* <NavItem eventKey={3} href="#">
+            Log in
+          </NavItem> */}
         </Nav>
       </div>
     );
   }
 }
 
-export default AdminNavbarLinks;
+export default FullPageNavbarLinks;
