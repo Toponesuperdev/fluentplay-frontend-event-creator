@@ -17,7 +17,7 @@
 */
 import React, { Component } from "react";
 import { NavItem, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 class AdminNavbarLinks extends Component {
   constructor(props) {
@@ -66,10 +66,10 @@ class AdminNavbarLinks extends Component {
           </NavItem>
         </Nav> */}
         <Nav pullRight>
-          <NavItem eventKey={1}>
-            <Link to="/profile">
+          <NavItem eventKey={1} href="/profile">
+            {/* <Link to="/profile"> */}
               Account
-            </Link>
+            {/* </Link> */}
           </NavItem>
           {/* <NavDropdown
             eventKey={2}

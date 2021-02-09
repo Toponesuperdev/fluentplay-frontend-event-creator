@@ -68,7 +68,7 @@ class SignUp extends Component {
                 title="Sign Up"
                 content={
                   <div>
-                    <FormGroup controlId="sponsorName">
+                    <FormGroup controlId="email">
                       <ControlLabel>Email</ControlLabel>
                       <FormControl
                         componentClass="input"
@@ -80,26 +80,26 @@ class SignUp extends Component {
                         onChange={this.handleEmailChange}
                       />
                     </FormGroup>
-                    <FormGroup controlId="sponsorName">
+                    <FormGroup controlId="password">
                       <ControlLabel>Password</ControlLabel>
                       <FormControl
                         componentClass="input"
                         type="password"
                         className="col-md-12"
                         bsClass="form-control"
-                        placeholder="Input your password."
+                        placeholder="Password"
                         style={{marginBottom: "20px"}}
                         onChange={this.handlePasswordChange}
                       />
                     </FormGroup>
-                    <FormGroup controlId="sponsorName">
+                    <FormGroup controlId="confirm">
                       <ControlLabel>Confirm password</ControlLabel>
                       <FormControl
                         componentClass="input"
                         type="password"
                         className="col-md-12"
                         bsClass="form-control"
-                        placeholder="Input your password."
+                        placeholder="Password confirmation"
                         style={{marginBottom: "20px"}}
                         onChange={this.handleConfirmPasswordChange}
                       />
