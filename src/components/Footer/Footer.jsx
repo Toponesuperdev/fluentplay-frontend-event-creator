@@ -23,7 +23,7 @@ class Footer extends Component {
     return (
       <footer className="footer">
         <Grid fluid>
-          <nav className="pull-left">
+          {/* <nav className="pull-left">
             <ul>
               <li>
                 <a href="#pablo">Home</a>
@@ -38,13 +38,13 @@ class Footer extends Component {
                 <a href="#pablo">Blog</a>
               </li>
             </ul>
-          </nav>
+          </nav> */}
           <p className="copyright pull-right">
             &copy; {new Date().getFullYear()}{" "}
             <a href="http://www.creative-tim.com?ref=lbr-footer">
-              Creative Tim
+              FluentPlay
             </a>
-            , made with love for a better web
+            , made with love for a better events
           </p>
         </Grid>
       </footer>

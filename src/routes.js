@@ -34,14 +34,35 @@ import CreateSession from "views/CreateSession.jsx"
 import EditSession from "views/EditSession.jsx"
 import CreateSponsor from "views/CreateSponsor.jsx"
 import EditSponsor from "views/EditSponsor.jsx"
+import LogIn from "views/LogIn.jsx"
+import SignUp from "views/SignUp.jsx"
+import Profile from "views/Profile.jsx"
+
+import { FullPage, Main } from "./layouts"
 
 const dashboardRoutes = [
+  {
+    path: "/",
+    component: LogIn,
+    layout: FullPage,
+    exact: true
+  },
+  {
+    path: "/signup",
+    component: SignUp,
+    layout: FullPage,
+  },
+  {
+    path: "/profile",
+    component: Profile,
+    layout: Main,
+  },
   {
     path: "/events",
     name: "Event Information",
     icon: "pe-7s-user",
     component: EventInformation,
-    layout: "/admin",
+    layout: Main,
     sidebar: true,
     exact: true
   },
@@ -50,7 +71,7 @@ const dashboardRoutes = [
     name: "Event Information",
     icon: "pe-7s-user",
     component: CreateEvent,
-    layout: "/admin",
+    layout: Main,
     sidebar: false
   },
   {
@@ -58,7 +79,7 @@ const dashboardRoutes = [
     name: "Event Information",
     icon: "pe-7s-user",
     component: EditEvent,
-    layout: "/admin",
+    layout: Main,
     sidebar: false
   },
   {
@@ -66,7 +87,7 @@ const dashboardRoutes = [
     name: "Session Information",
     icon: "pe-7s-user",
     component: SessionInformation,
-    layout: "/admin",
+    layout: Main,
     sidebar: true,
     exact: true
   },
@@ -75,7 +96,7 @@ const dashboardRoutes = [
     name: "Session Information",
     icon: "pe-7s-user",
     component: CreateSession,
-    layout: "/admin",
+    layout: Main,
     sidebar: false
   },
   {
@@ -83,7 +104,7 @@ const dashboardRoutes = [
     name: "Session Information",
     icon: "pe-7s-user",
     component: EditSession,
-    layout: "/admin",
+    layout: Main,
     sidebar: false
   },
   {
@@ -91,7 +112,7 @@ const dashboardRoutes = [
     name: "Sponsors",
     icon: "pe-7s-user",
     component: Sponsors,
-    layout: "/admin",
+    layout: Main,
     sidebar: true,
     exact: true
   },
@@ -100,7 +121,7 @@ const dashboardRoutes = [
     name: "Sponsors",
     icon: "pe-7s-user",
     component: CreateSponsor,
-    layout: "/admin",
+    layout: Main,
     sidebar: false
   },
   {
@@ -108,7 +129,7 @@ const dashboardRoutes = [
     name: "Sponsors",
     icon: "pe-7s-user",
     component: EditSponsor,
-    layout: "/admin",
+    layout: Main,
     sidebar: false
   },
   // {

@@ -41,7 +41,7 @@ class EventInformation extends Component {
           <Row>
           {eventList.map((event, idx) => {
             return (
-              <Col md={3} key={idx}>
+              <Col md={4} key={idx}>
                 <EventCard
                   data={event}
                 />
