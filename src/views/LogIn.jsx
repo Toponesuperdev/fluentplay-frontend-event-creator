@@ -1,37 +1,15 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import {
-  // Grid,
   Row,
   Col,
   FormControl,
   FormGroup,
   ControlLabel,
-  // FormControl
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Card } from "components/Card/Card.jsx";
-// import { FormInputs } from "components/FormInputs/FormInputs.jsx";
-// import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-import { login } from "../requests/auth.jsx"
-// import avatar from "assets/img/faces/face-3.jpg";
+import { logIn } from "../requests/auth.jsx"
 
 class LogIn extends Component {
   constructor(props) {
@@ -55,9 +33,9 @@ class LogIn extends Component {
       return;
     }
 
-    login(data).then((response) => {
+    logIn(data).then((response) => {
       if (response.status) {
-        // localStorage.setItem("email", data.email);
+        localStorage.setItem("token", response.token);
         this.props.history.push("/events");
       } else {
         this.setState({errMsg: response.message});
@@ -117,8 +95,7 @@ class LogIn extends Component {
                 }
               />
             </Col>
-          </Row>
-        </div>
+          </Row></div>
       </div>
     );
   }

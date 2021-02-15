@@ -1,23 +1,5 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import {
-  // Grid,
   Row,
   Col,
   FormGroup,
@@ -25,25 +7,42 @@ import {
   FormControl
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-import { Card } from "components/Card/Card.jsx";
-// import { FormInputs } from "components/FormInputs/FormInputs.jsx";
-// import { UserCard } from "components/UserCard/UserCard.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
-
-// import avatar from "assets/img/faces/face-3.jpg";
+import { Card } from "components/Card/Card.jsx";
+import { signUp } from "../requests/auth.jsx"
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      
+      email: "",
+      password: "",
+      confirm: "",
+      errMsg: ""
     }
   }
 
   handleClick = () => {
-    this.props.history.push("/events");
+    const { email, password, confirm } = this.state;
+
+    if (password !== confirm) {
+      this.setState({errMsg: "The password does not match."})
+      return;
+    }
+
+    let param = {
+      email,
+      password,
+    }
+
+    signUp(param).then((response) => {
+      if (response.status) {
+        this.props.history.push("/profile");
+      } else {
+        this.setState({errMsg: response.message});
+      }
+    });
   }
 
   handleEmailChange = (eve) => {
@@ -55,7 +54,15 @@ class SignUp extends Component {
   }
 
   handleConfirmPasswordChange = (eve) => {
-    this.setState({password: eve.target.value});
+    const { password } = this.state;
+
+    if (password !== eve.target.value) {
+      this.setState({confirm: eve.target.value, errMsg: "The password does not match."});
+      // console.log(password, "++++++++++++++++++");
+    } else {
+      this.setState({confirm: eve.target.value, errMsg: ""});
+      // console.log(password, confirm, "++++++++++++++++++");
+    } 
   }
 
   render() {
@@ -108,6 +115,7 @@ class SignUp extends Component {
                     <Button bsStyle="info" pullRight fill onClick={this.handleClick}>
                       Sign Up
                     </Button>
+                    <p>{this.state.errMsg}</p>
                     <div className="clearfix" />
                   </div>
                 }

@@ -178,7 +178,7 @@ class EventInformation extends Component {
         feeType: response.data.feeType,
         temp_info
       });
-      this.props.handleClick("tr", "success", `The event ${temp_info.eventName} is updated successfully.`);
+      // this.props.handleClick("tr", "success", `The event ${temp_info.eventName} is updated successfully.`);
     });
   }
 
