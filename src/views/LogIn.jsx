@@ -61,7 +61,7 @@ class LogIn extends Component {
                 title="Log In"
                 content={
                   <div>
-                    <FormGroup controlId="sponsorName">
+                    <FormGroup controlId="email">
                       <ControlLabel>Email</ControlLabel>
                       <FormControl
                         componentClass="input"
@@ -73,7 +73,7 @@ class LogIn extends Component {
                         onChange={this.handleEmailChange}
                       />
                     </FormGroup>
-                    <FormGroup controlId="sponsorName">
+                    <FormGroup controlId="password">
                       <ControlLabel>Password</ControlLabel>
                       <FormControl
                         componentClass="input"

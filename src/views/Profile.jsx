@@ -13,6 +13,7 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import Button from "components/CustomButton/CustomButton.jsx";
 import DeleteButtonImage from "../assets/img/Delete.svg";
 import AddButtonImage from "../assets/img/Add.svg";
+import { getUser, updateProfile } from "../requests/users.jsx"
 
 const languages = [
   {name: "English"},
@@ -92,7 +93,7 @@ class Profile extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      name: "",
+      userName: "",
       company: "",
       title: "",
       website: "",
@@ -101,12 +102,13 @@ class Profile extends Component {
       yourLanguage: "",
       toLanguages: [],
       expertise: [],
+      interpretedCompany: "",
       mobileNumber: "",
       payerID: "",
       currencyCode: "",
       priceFor30min: "",
       priceFor90min: "",
-      position: "",
+      userPosition: "",
       availableRecurrenceTimeList: [
         {
           dayOfWeek: "Sunday",
@@ -144,7 +146,33 @@ class Profile extends Component {
           status: false
         }
       ],
+      selectedExpertise: [],
+      selectedToLanguages: []
     };
+  }
+
+  componentWillMount() {
+    getUser().then((response) => {
+      if (response.status) {
+        const { isTranslator } = response.data;
+        if (isTranslator) {
+          const { userId, userEmail, userName, company, website, availableRecurrenceTimeList, currencyCode, expertise, interpretedCompany, mobileNumber, payerID, priceFor30min, priceFor90min, toLanguages, userPosition, yourLanguage } = response.data;
+          let selectedExpertise = [];
+          let selectedToLanguages = [];
+
+          for (const idx in expertise)
+            selectedExpertise.push({name: expertise[idx]});
+
+          for (const idx in toLanguages)
+            selectedToLanguages.push({name: toLanguages[idx]});
+
+          this.setState({userId, email: userEmail, userName, company, isTranslator, website, availableRecurrenceTimeList, currencyCode, selectedExpertise, interpretedCompany, mobileNumber, payerID, priceFor30min, priceFor90min, selectedToLanguages, userPosition, yourLanguage});
+        } else {
+          const { company, userEmail, title, userName, website } = response.data;
+          this.setState({company, email: userEmail, isTranslator, title, userName, website});
+        }
+      }
+    });
   }
 
   handleEmailChange = (eve) => {
@@ -166,7 +194,7 @@ class Profile extends Component {
   }
 
   handleNameChange = (eve) => {
-    this.setState({name: eve.target.value});
+    this.setState({userName: eve.target.value});
   }
 
   handleCompanyChange = (eve) => {
@@ -226,7 +254,7 @@ class Profile extends Component {
   }
 
   handleInterpretedCompanyChange = (eve) => {
-    this.setState({company: eve.target.value});
+    this.setState({interpretedCompany: eve.target.value});
   }
 
   handleMobileNumberChange = (eve) => {
@@ -311,16 +339,16 @@ class Profile extends Component {
   }
 
   handlePositionChange = (eve) => {
-    this.setState({position: eve.target.value});
+    this.setState({userPosition: eve.target.value});
   }
 
   handleProfileUpdate = () => {
     const { isTranslator } = this.state;
     let param = {};
     if (isTranslator) {
-      const {name, email, password, company, website, yourLanguage, toLanguages, expertise, mobileNumber, payerID, currencyCode, priceFor30min, priceFor90min, position, availableRecurrenceTimeList} = this.state;
+      const {userName, email, password, company, website, yourLanguage, toLanguages, expertise, mobileNumber, payerID, currencyCode, priceFor30min, priceFor90min, userPosition, availableRecurrenceTimeList, interpretedCompany} = this.state;
       param.isTranslator = isTranslator;
-      param.name = name;
+      param.userName = userName;
       param.email = email;
       param.password = password;
       param.company = company;
@@ -328,17 +356,18 @@ class Profile extends Component {
       param.yourLanguage = yourLanguage;
       param.toLanguages = toLanguages;
       param.expertise = expertise;
+      param.interpretedCompany = interpretedCompany;
       param.mobileNumber = mobileNumber;
       param.payerID = payerID;
       param.currencyCode = currencyCode;
       param.priceFor30min = priceFor30min;
       param.priceFor90min = priceFor90min
-      param.position = position
+      param.userPosition = userPosition;
       param.availableRecurrenceTimeList = availableRecurrenceTimeList;
     } else {
-      const {name, email, password, company, title, website} = this.state;
+      const {userName, email, password, company, title, website} = this.state;
       param.isTranslator = isTranslator;
-      param.name = name;
+      param.userName = userName;
       param.email = email;
       param.password = password;
       param.company = company;
@@ -346,11 +375,14 @@ class Profile extends Component {
       param.website = website;
     }
 
-    console.log(param, "++++++");
+    updateProfile(param).then((response) => {
+      console.log(response, "+++++++++++++");
+    });
   }
 
   render() {
-    const { isTranslator, availableRecurrenceTimeList } = this.state;
+    const { isTranslator, availableRecurrenceTimeList, email, company, title, userName, website, currencyCode, selectedExpertise, interpretedCompany, mobileNumber, payerID, priceFor30min, priceFor90min, selectedToLanguages, userPosition, yourLanguage } = this.state;
+    
     return (
       <div className="content">
         <Grid fluid>
@@ -368,6 +400,7 @@ class Profile extends Component {
                         bsClass="form-control"
                         placeholder="Input email address."
                         style={{marginBottom: "20px"}}
+                        defaultValue={email}
                         onChange={this.handleEmailChange}
                       />
                     </FormGroup>
@@ -378,6 +411,7 @@ class Profile extends Component {
                         bsClass="form-control"
                         placeholder="Input your name."
                         style={{marginBottom: "20px"}}
+                        defaultValue={userName}
                         onChange={this.handleNameChange}
                       />
                     </FormGroup>
@@ -411,6 +445,7 @@ class Profile extends Component {
                         bsClass="form-control"
                         placeholder="Company, organization or school"
                         style={{marginBottom: "20px"}}
+                        defaultValue={company}
                         onChange={this.handleCompanyChange}
                       />
                     </FormGroup>
@@ -422,6 +457,7 @@ class Profile extends Component {
                           bsClass="form-control"
                           placeholder="Input the titile."
                           style={{marginBottom: "20px"}}
+                          defaultValue={title}
                           onChange={this.handleTitleChange}
                         />
                       </FormGroup>
@@ -434,6 +470,7 @@ class Profile extends Component {
                           bsClass="form-control"
                           placeholder="Input your position."
                           style={{marginBottom: "20px"}}
+                          defaultValue={userPosition}
                           onChange={this.handlePositionChange}
                         />
                       </FormGroup>
@@ -445,6 +482,7 @@ class Profile extends Component {
                         bsClass="form-control"
                         placeholder="Input your website."
                         style={{marginBottom: "20px"}}
+                        defaultValue={website}
                         onChange={this.handleWebsiteChange}
                       />
                     </FormGroup>
@@ -456,6 +494,7 @@ class Profile extends Component {
                             componentClass="select"
                             bsClass="form-control"
                             placeholder="Select your language."
+                            defaultValue={yourLanguage}
                             onChange={this.handleYourLanguageChange}
                           >
                               {languages.map((language, idx) => {
@@ -470,6 +509,7 @@ class Profile extends Component {
                           <Multiselect
                             id="translation_select"
                             options={languages}
+                            selectedValues={selectedToLanguages}
                             onSelect={this.handleLanguageToSelect}
                             onRemove={this.handleLanguageToRemove}
                             closeIcon="cancel"
@@ -479,8 +519,9 @@ class Profile extends Component {
                         <FormGroup controlId="expertise" className="col-md-12">
                           <ControlLabel>What are your areas of expertise?</ControlLabel>
                           <Multiselect
-                            id="translation_select"
+                            id="expertise_select"
                             options={categories}
+                            selectedValues={selectedExpertise}
                             onSelect={this.handleExpertiseSelect}
                             onRemove={this.handleExpertiseRemove}
                             closeIcon="cancel"
@@ -493,6 +534,7 @@ class Profile extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             style={{marginBottom: "20px"}}
+                            defaultValue={interpretedCompany}
                             onChange={this.handleInterpretedCompanyChange}
                           />
                         </FormGroup>
@@ -503,6 +545,7 @@ class Profile extends Component {
                             type="number"
                             bsClass="form-control"
                             style={{marginBottom: "20px"}}
+                            defaultValue={mobileNumber}
                             onChange={this.handleMobileNumberChange}
                           />
                         </FormGroup>
@@ -512,6 +555,7 @@ class Profile extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             style={{marginBottom: "20px"}}
+                            defaultValue={payerID}
                             onChange={this.handlePayerIDChange}
                           />
                         </FormGroup>
@@ -521,6 +565,7 @@ class Profile extends Component {
                             componentClass="input"
                             bsClass="form-control"
                             style={{marginBottom: "20px"}}
+                            defaultValue={currencyCode}
                             onChange={this.handleCurrencyCodeChange}
                           />
                         </FormGroup>
@@ -531,6 +576,7 @@ class Profile extends Component {
                             type="number"
                             bsClass="form-control"
                             style={{marginBottom: "20px"}}
+                            defaultValue={priceFor30min}
                             onChange={this.handle30MinsRateChange}
                           />
                         </FormGroup>
@@ -541,6 +587,7 @@ class Profile extends Component {
                             type="number"
                             bsClass="form-control"
                             style={{marginBottom: "20px"}}
+                            defaultValue={priceFor90min}
                             onChange={this.handle90MinsRateChange}
                           />
                         </FormGroup>
@@ -555,19 +602,21 @@ class Profile extends Component {
                                 <div id={'day_' + dayIdx}>
                                   {day.timeList.length ?
                                     day.timeList.map((time, timeIdx) => {
+                                      console.log(time.fromTimeStr, "++++++++++++++");
                                       return (
                                         <Row key={timeIdx}>
                                           <Col md={5} xs={4} className="available-time-group">
                                             <FormControl
                                               componentClass="select"
                                               bsClass="form-control"
-                                              defaultValue = {time.fromTimeStr}
                                               placeholder="Select your language."
                                               onChange={(e) => this.handleUpdatefrom(dayIdx, timeIdx, e)}
                                             >
                                               {Timelinelist.map((item, idx) => {
                                                 return (
-                                                  <option key={idx} value={item.id}>{item.str}</option>
+                                                  item.str === time.fromTimeStr 
+                                                  ? <option key={idx} value={item.id} selected>{item.str}</option>
+                                                  : <option key={idx} value={item.id}>{item.str}</option>
                                                 );
                                               })}
                                             </FormControl>
@@ -576,13 +625,14 @@ class Profile extends Component {
                                             <FormControl
                                               componentClass="select"
                                               bsClass="form-control"
-                                              defaultValue = {time.fromTimeStr}
                                               placeholder="Select your language."
                                               onChange={(e) => this.handleUpdateto(dayIdx, timeIdx, e)}
                                             >
                                               {Timelinelist.map((item, idx) => {
                                                 return (
-                                                  <option key={idx} value={item.id}>{item.str}</option>
+                                                  item.str === time.toTimeStr
+                                                  ? <option key={idx} value={item.id} selected>{item.str}</option>
+                                                  : <option key={idx} value={item.id}>{item.str}</option>
                                                 );
                                               })}
                                             </FormControl>
